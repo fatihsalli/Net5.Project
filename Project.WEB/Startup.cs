@@ -17,6 +17,10 @@ namespace Project.WEB
 {
     public class Startup
     {
+        /*Proje ASP.Net Core Web App(Model-View-Controller) seçildikten sonra 
+         * Authentication type=> Individual Accounts olarak seçildi. 
+         Bu sayede regin-logister-identity tanýmlamalarý otomatik geldi.*/
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -24,20 +28,24 @@ namespace Project.WEB
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            //Context dahil etmek için
             services.AddDbContext<ProjectContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
+
+            //Bu, UseDeveloperExceptionPage ile birlikte Entity Framework geçiþleri kullanýlarak çözümlenebilen veritabanýyla ilgili özel durumlarý yakalar. Bu özel durumlar oluþtuðunda, sorunu çözmek için olasý eylemler hakkýnda ayrýntýlý bilgi içeren bir HTML yanýtý oluþturulur.
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ProjectContext>();
+            //Kimlik Yönetimi
+            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ProjectContext>();
+
+            //MVC DAhil etmek için
             services.AddControllersWithViews();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -48,7 +56,6 @@ namespace Project.WEB
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
