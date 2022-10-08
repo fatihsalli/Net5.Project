@@ -1,0 +1,1 @@
+=> asp-for asp-action gibi özellikleri kullanabilmek için ilgili viewda _ViewImports dosyasý içinde "@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers" olmalýdýr.

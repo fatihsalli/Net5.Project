@@ -32,7 +32,7 @@ namespace Project.BLL.Repositories
 
         public void Insert(T entity)
         {
-            if (entity == null)
+            if (entity != null)
             {
                 entity.CreatedDate = DateTime.Now;
                 entity.Status = Project.Entity.Enum.DataStatus.Inserted;
@@ -44,7 +44,7 @@ namespace Project.BLL.Repositories
 
         public void Remove(T entity)
         {
-            if (entity == null)
+            if (entity != null)
             {
                 entity.DeletedDate = DateTime.Now;
                 entity.Status = Project.Entity.Enum.DataStatus.Deleted;
@@ -69,7 +69,7 @@ namespace Project.BLL.Repositories
 
         public void Update(T entity)
         {
-            if (entity == null)
+            if (entity != null)
             {
                 entity.ModifiedDate = DateTime.Now;
                 entity.Status = Project.Entity.Enum.DataStatus.Updated;

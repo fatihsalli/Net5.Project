@@ -12,23 +12,16 @@ namespace Project.WEB.Controllers
 {
     public class HomeController : Controller
     {
-        //private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<HomeController> _logger;
 
-        //public HomeController(ILogger<HomeController> logger)
-        //{
-        //    _logger = logger;
-        //}
-
-        //Test Amaçlı Yapıldı!!
-        private readonly ICategoryRepository _categoryRepository;
-        public HomeController(ICategoryRepository categoryRepository)
+        public HomeController(ILogger<HomeController> logger)
         {
-            _categoryRepository = categoryRepository;
+            _logger = logger;
         }
 
         public IActionResult Index()
         {
-            return View(_categoryRepository.GetAll());
+            return View();
         }
     
     }
