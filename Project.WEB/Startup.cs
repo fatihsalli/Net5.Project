@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Project.BLL.Repositories.CategoryRepository;
+using Project.BLL.Repositories.ProductRepository;
 using Project.DAL.Context;
 using System;
 using System.Collections.Generic;
@@ -44,6 +46,12 @@ namespace Project.WEB
 
             //MVC DAhil etmek için
             services.AddControllersWithViews();
+
+            //Instancelar
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
+
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
