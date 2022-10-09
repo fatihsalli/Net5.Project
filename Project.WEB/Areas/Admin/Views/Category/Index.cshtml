@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+    int sayi = 0;
 }
 
 <div class="row">
@@ -15,7 +16,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="card-body table-responsive p-0">
                 <table class="table table-hover text-nowrap">
                     <thead>
@@ -36,7 +36,7 @@
                                 <td>@item.CategoryName</td>
                                 <td>@item.Description</td>
                                 <td>@item.Status</td>
-                                <td>????</td>
+                                <td>@*@Model.Where(x=> x.CategoryId==1).AsQueryable().Count();*@</td>
                                 <td>
                                     <a asp-action="Update" asp-controller="Category" asp-area="Admin" asp-route-id="@item.Id" class="btn btn-xs btn-warning">Update</a>
                                     <a asp-action="Delete" asp-controller="Category" asp-area="Admin" asp-route-id="@item.Id" class="btn btn-xs btn-danger">Delete</a>
@@ -46,8 +46,6 @@
                     </tbody>
                 </table>
             </div>
-
         </div>
-
     </div>
 </div>

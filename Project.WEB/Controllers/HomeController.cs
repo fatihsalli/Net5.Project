@@ -20,8 +20,13 @@ namespace Project.WEB.Controllers
             _productRepository = productRepository;
         }
 
+        
+
+
         public IActionResult Index()
         {
+
+
             return View(_productRepository.GetAll());
         }
     

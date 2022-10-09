@@ -1,6 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Project.BLL.Repositories.CategoryRepository;
+using Project.BLL.Repositories.ProductRepository;
 using Project.Entity.Entity;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Project.WEB.Areas.Admin.Controllers
 {
@@ -8,15 +12,18 @@ namespace Project.WEB.Areas.Admin.Controllers
     public class CategoryController : Controller
     {
         private readonly ICategoryRepository _categoryRepository;
+        private readonly IProductRepository _productRepository;
 
-        public CategoryController(ICategoryRepository categoryRepository)
+        public CategoryController(ICategoryRepository categoryRepository,IProductRepository productRepository)
         {
             _categoryRepository = categoryRepository;
+            _productRepository = productRepository;
         }
 
         public IActionResult Index()
         {
             @TempData["Title"] = "Category";
+            //ViewBag.Categories = _productRepository.GetAll();
             return View(_categoryRepository.GetAll());
         }
 
