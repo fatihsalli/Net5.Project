@@ -55,7 +55,6 @@ namespace Project.WEB
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
 
-
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

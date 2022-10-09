@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Project.BLL.Repositories.CategoryRepository;
 using Project.BLL.Repositories.ProductRepository;
 using Project.Entity.Entity;
@@ -8,6 +9,7 @@ using System.Linq;
 
 namespace Project.WEB.Areas.Admin.Controllers
 {
+    //[Authorize(Roles = "Admin")]
     [Area("Admin")]
     public class CategoryController : Controller
     {
@@ -22,9 +24,11 @@ namespace Project.WEB.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
+
             @TempData["Title"] = "Category";
+            TempData["Categories"] =_categoryRepository.GetAll();
             //ViewBag.Categories = _productRepository.GetAll();
-            return View(_categoryRepository.GetAll());
+            return View(_productRepository.GetAll());
         }
 
         [HttpGet]

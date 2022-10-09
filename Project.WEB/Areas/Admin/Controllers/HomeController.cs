@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Project.BLL.Repositories.OrderRepository;
 using Project.BLL.Repositories.ProductRepository;
 using System.Linq;
 
 namespace Project.WEB.Areas.Admin.Controllers
 {
+    //[Authorize(Roles = "Admin")]
     [Area("Admin")]
     public class HomeController : Controller
     {

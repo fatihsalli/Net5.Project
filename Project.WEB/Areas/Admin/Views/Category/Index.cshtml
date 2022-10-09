@@ -1,4 +1,4 @@
-﻿@model IQueryable<Category>
+﻿@model IQueryable<Product>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
@@ -16,6 +16,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="card-body table-responsive p-0">
                 <table class="table table-hover text-nowrap">
                     <thead>
@@ -29,17 +30,17 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model)
+                        @foreach (var category in TempData["Categories"] as IQueryable<Category>)
                         {
                             <tr>
-                                <td>@item.Id</td>
-                                <td>@item.CategoryName</td>
-                                <td>@item.Description</td>
-                                <td>@item.Status</td>
-                                <td>@*@Model.Where(x=> x.CategoryId==1).AsQueryable().Count();*@</td>
+                                <td>@category.Id</td>
+                                <td>@category.CategoryName</td>
+                                <td>@category.Description</td>
+                                <td>@category.Status</td>
+                                <td>@*@Model.Where(x=> x.CategoryId==category.Id).AsQueryable().Count();*@</td>
                                 <td>
-                                    <a asp-action="Update" asp-controller="Category" asp-area="Admin" asp-route-id="@item.Id" class="btn btn-xs btn-warning">Update</a>
-                                    <a asp-action="Delete" asp-controller="Category" asp-area="Admin" asp-route-id="@item.Id" class="btn btn-xs btn-danger">Delete</a>
+                                    <a asp-action="Update" asp-controller="Category" asp-area="Admin" asp-route-id="@category.Id" class="btn btn-xs btn-warning">Update</a>
+                                    <a asp-action="Delete" asp-controller="Category" asp-area="Admin" asp-route-id="@category.Id" class="btn btn-xs btn-danger">Delete</a>
                                 </td>
                             </tr>
                         }
