@@ -10,6 +10,12 @@ namespace Project.Entity.Abstract
 {
     public class BaseEntity:IEntity
     {
+        public BaseEntity()
+        {
+            CreatedDate = DateTime.Now;
+            IsActive = true;
+            Status = Enum.DataStatus.Inserted;
+        }
         public int Id { get; set; }
         public DateTime? CreatedDate { get; set; }
         public DateTime? ModifiedDate { get; set; }

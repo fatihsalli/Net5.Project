@@ -34,9 +34,6 @@ namespace Project.BLL.Repositories
         {
             if (entity != null)
             {
-                entity.CreatedDate = DateTime.Now;
-                entity.Status = Project.Entity.Enum.DataStatus.Inserted;
-                entity.IsActive = true;
                 _entities.Add(entity);
                 SaveChanges("Veri Kaydedildi!");
             }
@@ -71,7 +68,7 @@ namespace Project.BLL.Repositories
         {
             if (entity != null)
             {
-                entity.ModifiedDate = DateTime.Now;
+                entity.ModifiedDate = DateTime.UtcNow;
                 entity.Status = Project.Entity.Enum.DataStatus.Updated;
                 entity.IsActive = true;
                 _context.Entry(entity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
