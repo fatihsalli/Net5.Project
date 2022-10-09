@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Project.BLL.Repositories.CategoryRepository;
+using Project.BLL.Repositories.ProductRepository;
 using Project.WEB.Models;
 using System;
 using System.Collections.Generic;
@@ -12,16 +13,16 @@ namespace Project.WEB.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IProductRepository _productRepository;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IProductRepository productRepository)
         {
-            _logger = logger;
+            _productRepository = productRepository;
         }
 
         public IActionResult Index()
         {
-            return View();
+            return View(_productRepository.GetAll());
         }
     
     }

@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Project.BLL.Repositories.CategoryRepository;
+using Project.BLL.Repositories.OrderDetailRepository;
+using Project.BLL.Repositories.OrderRepository;
 using Project.BLL.Repositories.ProductRepository;
 using Project.DAL.Context;
 using System;
@@ -50,6 +52,8 @@ namespace Project.WEB
             //Instancelar
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
 
 
         }

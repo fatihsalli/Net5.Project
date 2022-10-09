@@ -1,10 +1,44 @@
-﻿@using Project.Entity.Entity
-@model IQueryable<Category>
+﻿@model IQueryable<Product>
 @{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<section class="py-5">
+
+
+    <div class="container px-4 px-lg-5 mt-5">
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-start">
+            @foreach (var product in Model)
+            {
+                <div class="col-3 mb-5">
+                    <div class="card h-100">
+                        <!-- Sale badge-->
+                        <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Kategori @product.CategoryId</div>
+                        <!-- Product image-->
+                        <img class="card-img-top" src="@product.ImagePath" alt="...">
+                        <!-- Product details-->
+                        <div class="card-body p-1">
+                            <div class="text-center">
+                                <!-- Product name-->
+                                <h5 class="fw-bolder">@product.ProductName</h5>
+                                <!-- Product price-->
+                            @product.UnitPrice TL
+                            </div>
+                        </div>
+                        <!-- Product actions-->
+                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                            <div class="text-center"><a class="btn btn-lg btn-outline-primary mt-auto m-2" href="#">Sepete Ekle</a></div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+
+
+
+
+
+
+</section>
