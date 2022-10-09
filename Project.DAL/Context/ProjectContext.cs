@@ -17,8 +17,33 @@ namespace Project.DAL.Context
         }
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderDetail> OrderDetails { get; set; }
+
 
         //==> IOC Containerdan talep ediyoruz bu sebeple de contructorda  yukarıdaki methodu gönderiyoruz. Bu methot IOC Container tarafında doldurularak Scope olarak instance alınıyor. O yüzden aşağıdaki methoda gerek kalmıyor.
+
+        //Database Tasarımı
+        //Fluent Api yöntemiyle database ayarlarını güncelliyoruz.
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            //OrderDetail ara tablosu için
+            modelBuilder.Entity<OrderDetail>().Ignore(x => x.Id);
+            modelBuilder.Entity<OrderDetail>().HasKey(x=> new {x.OrderId, x.ProductId });
+
+            //Product düzenlemeler
+            modelBuilder.Entity<Product>().Property(x => x.ProductName).IsRequired(true);
+            modelBuilder.Entity<Product>().Property(x => x.ProductName).HasMaxLength(50);
+            modelBuilder.Entity<Product>().Property(x => x.Description).HasMaxLength(250);
+            modelBuilder.Entity<Product>().Property(x => x.ImagePath).HasMaxLength(500);
+
+            //Category Düzenlemeler
+            modelBuilder.Entity<Category>().Property(x => x.CategoryName).IsRequired(true);
+            modelBuilder.Entity<Category>().Property(x => x.CategoryName).HasMaxLength(50);
+            modelBuilder.Entity<Category>().Property(x => x.Description).HasMaxLength(250);
+
+            base.OnModelCreating(modelBuilder);
+        }
 
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{

@@ -9,6 +9,7 @@ namespace Project.Entity.Entity
 {
     public class Order:BaseEntity
     {
-
+        public decimal TotalPrice { get; set; }
+        public List<OrderDetail> OrderDetails { get; set; }
     }
 }
