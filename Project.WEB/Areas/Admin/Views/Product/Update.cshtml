@@ -8,7 +8,7 @@
     <div class="col-md-6">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Product Update</h3>
+                <h3 class="card-title">Product Create</h3>
             </div>
             <form method="post">
                 <div class="card-body">
@@ -25,12 +25,15 @@
                         <input asp-for="UnitsInStock" type="number" class="form-control" placeholder="Enter Unit In Stock" value="@Model.UnitsInStock">
                     </div>
                     <div class="form-group">
-                        <label>Category Id</label>
-                        <input asp-for="CategoryId" type="number" class="form-control" placeholder="Enter Category Id" value="@Model.CategoryId">
+                        <label>Category</label>
+                        <select asp-items="@ViewBag.Categories" asp-for="CategoryId" class="form-control custom-select"
+                                value="@Model.CategoryId">
+                            <option selected="" disabled>Please Select Category</option>
+                        </select>
                     </div>
                 </div>
                 <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">Update Product</button>
+                    <button type="submit" class="btn btn-primary">Create Product</button>
                 </div>
             </form>
         </div>

@@ -60,6 +60,11 @@ namespace Project.WEB.Areas.Admin.Controllers
         {
             @TempData["Title"] = "Update Product";
             var product = _productRepository.GetById(id);
+            ViewBag.Categories = _categoryRepository.GetAll().Select(x => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem()
+            {
+                Text = x.CategoryName,
+                Value = x.Id.ToString()
+            });
             return View(product);
         }
 

@@ -22,7 +22,7 @@ namespace Project.BLL.Repositories
 
         public IQueryable<T> GetAll()
         {
-            return _entities;
+            return _entities.Where(x=> x.IsActive==true);
         }
 
         public T GetById(int id)
@@ -46,7 +46,8 @@ namespace Project.BLL.Repositories
                 entity.DeletedDate = DateTime.Now;
                 entity.Status = Project.Entity.Enum.DataStatus.Deleted;
                 entity.IsActive = false;
-                _entities.Remove(entity);
+                _context.Entry(entity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                //_entities.Remove(entity);
                 SaveChanges("Veri Silindi!");
             }
         }

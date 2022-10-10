@@ -22,8 +22,6 @@ namespace Project.WEB.Controllers
        
         public IActionResult Index()
         {
-
-
             return View(_productRepository.GetAll());
         }
     
