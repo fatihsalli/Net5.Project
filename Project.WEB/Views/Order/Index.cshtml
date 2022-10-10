@@ -1,8 +1,8 @@
 ﻿@model List<CartItem>
 @{
-    ViewData["Title"] = "MyCart";
+    ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    decimal totalPrice=0;
+    decimal totalPrice = 0;
 }
 
 <section class="py-2">
@@ -33,28 +33,21 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card">
-                    <div class="card-body">
-                        <label>Have coupon?</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Coupon code" />
-                            <span class="input-group-append">
-                                <button class="btn btn-primary">Apply</button>
-                            </span>
-                        </div>
-                    </div>
-                </div>
                 <div class="card">
                     <div class="card-body">
                         <h5>Total Price: @totalPrice $</h5>
-                        <a asp-action="Index" asp-controller="Order" class="btn btn-primary">Complete Cart</a>
-                        <a href="#" class="btn btn-primary">Continue</a>
+                        <div class="form-group mt-2">
+                            <label>Payment Method</label>
+                            <select>
+                                <option>Money Order</option>
+                                <option>Bankcard</option>
+                                <option>Paying at the door</option>
+                            </select>
+                        </div>
+                        <a asp-action="AddOrder" asp-controller="Order" class="btn btn-primary mt-3">Siparişi Tamamla</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
-
