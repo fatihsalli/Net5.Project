@@ -1,0 +1,60 @@
+﻿@model List<CartItem>
+@{
+    ViewData["Title"] = "MyCart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    decimal totalPrice=0;
+}
+
+<section class="py-2">
+    <div class="container px-4 px-lg-5 mt-5">
+        <div class="row">
+            <div class="col-md-9">
+                <div class="card">
+                    <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                totalPrice += item.SubTotal;
+                                <tr>
+                                    <td>@item.ProductName</td>
+                                    <td>@item.Quantity</td>
+                                    <td>@item.UnitPrice</td>
+                                    <td></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <label>Have coupon?</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Coupon code" />
+                            <span class="input-group-append">
+                                <button class="btn btn-primary">Apply</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h5>Total Price: @totalPrice $</h5>
+                        <a href="#" class="btn btn-primary">Complete Cart</a>
+                        <a href="#" class="btn btn-primary">Continue</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

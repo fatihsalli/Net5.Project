@@ -41,6 +41,7 @@ namespace Project.BLL.Repositories
 
         public void Remove(T entity)
         {
+            //Silme işlemini databaseden yapmak için burada IsActive kısmını false çekip listelemeye kapatıyoruz.
             if (entity != null)
             {
                 entity.DeletedDate = DateTime.Now;

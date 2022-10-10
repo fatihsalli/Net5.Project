@@ -54,6 +54,12 @@ namespace Project.WEB
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
 
+            //Sepet
+            services.AddSession(x =>
+            {
+                x.Cookie.Name = "project_Cart";
+                x.IOTimeout=TimeSpan.FromMinutes(1);
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -72,6 +78,9 @@ namespace Project.WEB
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            //Session'ý aktif hale getirmek için
+            app.UseSession();
 
             app.UseAuthentication();
             app.UseAuthorization();
