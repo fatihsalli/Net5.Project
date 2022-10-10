@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Project.BLL.Repositories.CategoryRepository;
 using Project.BLL.Repositories.ProductRepository;
 using Project.Entity.Entity;
+using System.Linq;
 
 namespace Project.WEB.Areas.Admin.Controllers
 {
@@ -11,22 +13,31 @@ namespace Project.WEB.Areas.Admin.Controllers
     public class ProductController : Controller
     {
         private readonly IProductRepository _productRepository;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public ProductController(IProductRepository productRepository)
+
+        public ProductController(IProductRepository productRepository, ICategoryRepository categoryRepository)
         {
             _productRepository = productRepository;
+            _categoryRepository = categoryRepository;   
         }
 
         public IActionResult Index()
         {
-            @TempData["Title"] = "Product";
+            TempData["Title"] = "Product";
             return View(_productRepository.GetAll());
         }
 
         [HttpGet]
         public IActionResult Create()
         {
-            @TempData["Title"] = "Create Product";
+            TempData["Title"] = "Create Product";
+            //ViewBag.Categories=_categoryRepository.GetAll();
+            ViewBag.Categories = _categoryRepository.GetAll().Select(x=> new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem() 
+            { 
+                Text= x.CategoryName, Value=x.Id.ToString()
+            });
+
             return View();
         }
 

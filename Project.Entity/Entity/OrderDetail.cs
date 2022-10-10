@@ -16,6 +16,5 @@ namespace Project.Entity.Entity
         public Product Product { get; set; }
         public Order Order { get; set; }
 
-
     }
 }

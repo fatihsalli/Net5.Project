@@ -19,10 +19,7 @@ namespace Project.WEB.Controllers
         {
             _productRepository = productRepository;
         }
-
-        
-
-
+       
         public IActionResult Index()
         {
 

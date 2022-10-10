@@ -34,7 +34,6 @@ namespace Project.WEB
 
         public void ConfigureServices(IServiceCollection services)
         {
-
             //Context dahil etmek için
             services.AddDbContext<ProjectContext>(options =>
                 options.UseSqlServer(
