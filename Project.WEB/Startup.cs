@@ -60,6 +60,18 @@ namespace Project.WEB
                 x.Cookie.Name = "project_Cart";
                 x.IOTimeout=TimeSpan.FromMinutes(1);
             });
+
+            //Cookie
+            services.ConfigureApplicationCookie(x =>
+            {
+                x.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Home/Login");
+                x.Cookie = new Microsoft.AspNetCore.Http.CookieBuilder
+                {
+                    Name = "Login_Cookie"
+                };
+                x.SlidingExpiration = true;
+                x.ExpireTimeSpan = TimeSpan.FromMinutes(1);
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

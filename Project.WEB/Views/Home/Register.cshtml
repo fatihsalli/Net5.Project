@@ -1,0 +1,44 @@
+﻿
+@model RegisterVM
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="col-md-6 mx-auto p-2">
+        <div class="card">
+            <div class="card-header">
+                <h3>User Register</h3>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    <div class="mt-2">
+                        <label>Username</label>
+                        <span asp-validation-for="Username"></span>
+                        <input type="text" placeholder="enter username" class="form-control" asp-for="Username" />
+                    </div>
+                    <div class="mt-2">
+                        <label>Email</label>
+                        <span asp-validation-for="Email"></span>
+                        <input type="email" placeholder="enter email" class="form-control" asp-for="Email" />
+                    </div>
+                    <div class="mt-2">
+                        <label>Password</label>
+                        <span asp-validation-for="Password"></span>
+                        <input type="password" placeholder="enter password" class="form-control" asp-for="Password" />
+                    </div>
+                    <div class="mt-2">
+                        <label>Confirm Password</label>
+                        <span asp-validation-for="ConfirmPassword"></span>
+                        <input type="password" placeholder="enter confirm password" class="form-control" asp-for="ConfirmPassword" />
+                    </div>
+                    <div class="mt-2">
+                        <button type="submit" class="btn btn-primary ml-auto">Register</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

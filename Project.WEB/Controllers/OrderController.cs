@@ -49,7 +49,7 @@ namespace Project.WEB.Controllers
                 _orderDetailRepository.Insert(orderDetail);
             };
 
-            return View();
+            return View(_orderRepository.GetAll().Max(x => x.Id));
         }
 
 
