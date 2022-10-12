@@ -44,7 +44,7 @@ namespace Project.WEB.Controllers
                 OrderDetail orderDetail = new();
                 orderDetail.ProductId = cartItem.Id;
                 orderDetail.UnitPrice = cartItem.UnitPrice;
-                orderDetail.Count = cartItem.Quantity;
+                orderDetail.Quantity = cartItem.Quantity;
                 orderDetail.OrderId = _orderRepository.GetAll().Max(x=> x.Id);
                 _orderDetailRepository.Insert(orderDetail);
             };

@@ -12,6 +12,7 @@ using Project.BLL.Repositories.OrderDetailRepository;
 using Project.BLL.Repositories.OrderRepository;
 using Project.BLL.Repositories.ProductRepository;
 using Project.DAL.Context;
+using Project.Entity.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,7 +44,7 @@ namespace Project.WEB
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             //Kimlik Yönetimi
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ProjectContext>();
+            services.AddIdentity<AppUser,AppUserRole>(options => options.SignIn.RequireConfirmedEmail = false).AddEntityFrameworkStores<ProjectContext>().AddDefaultTokenProviders();
 
             //MVC DAhil etmek için
             services.AddControllersWithViews();
@@ -99,6 +100,7 @@ namespace Project.WEB
 
             app.UseEndpoints(endpoints =>
             {
+                //Area Route
                 app.UseEndpoints(endpoints =>
                 {
                     endpoints.MapControllerRoute(
@@ -106,10 +108,16 @@ namespace Project.WEB
                       pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
                     );
                 });
+
+                //Confirmation Route
+                endpoints.MapControllerRoute(
+                    name: "confirmation",
+                    pattern: "{controller=Home}/{action=Confirmation}/{id}/{registerCode}");
+
+                //Default Route
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapRazorPages();
             });
         }
     }

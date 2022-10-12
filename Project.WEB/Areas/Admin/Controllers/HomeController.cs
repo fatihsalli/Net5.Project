@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Project.BLL.Repositories.OrderRepository;
 using Project.BLL.Repositories.ProductRepository;
+using Project.Entity.Entity;
 using System.Linq;
 
 namespace Project.WEB.Areas.Admin.Controllers
@@ -13,10 +14,10 @@ namespace Project.WEB.Areas.Admin.Controllers
     {
         private readonly IProductRepository productRepository;
         private readonly IOrderRepository orderRepository;
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly UserManager<AppUser> userManager;
 
 
-        public HomeController(IProductRepository productRepository,IOrderRepository orderRepository,UserManager<IdentityUser> userManager)
+        public HomeController(IProductRepository productRepository,IOrderRepository orderRepository,UserManager<AppUser> userManager)
         {
             this.productRepository = productRepository;
             this.orderRepository = orderRepository;

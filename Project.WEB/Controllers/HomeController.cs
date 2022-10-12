@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Humanizer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Project.BLL.Repositories.CategoryRepository;
 using Project.BLL.Repositories.ProductRepository;
+using Project.Common;
+using Project.Entity.Entity;
 using Project.WEB.Models;
 using Project.WEB.Models.ViewModels;
 using Project.WEB.Utils;
@@ -17,10 +20,10 @@ namespace Project.WEB.Controllers
     public class HomeController : Controller
     {
         private readonly IProductRepository productRepository;
-        private readonly UserManager<IdentityUser> userManager;
-        private readonly SignInManager<IdentityUser> signInManager;
+        private readonly UserManager<AppUser> userManager;
+        private readonly SignInManager<AppUser> signInManager;
 
-        public HomeController(IProductRepository productRepository, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        public HomeController(IProductRepository productRepository, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
         {
             this.productRepository = productRepository;
             this.userManager = userManager;
@@ -70,7 +73,7 @@ namespace Project.WEB.Controllers
             {
                 if (SessionHelper.GetProductFromJson<Cart>(HttpContext.Session, "sepet") != null)
                 {
-                    var sepet = SessionHelper.GetProductFromJson<Cart>(HttpContext.Session, "sepet");
+                    Cart sepet = SessionHelper.GetProductFromJson<Cart>(HttpContext.Session, "sepet");
                     return View(sepet.Mycart);
                 }
                 else
@@ -86,8 +89,6 @@ namespace Project.WEB.Controllers
 
         public IActionResult Register()
         {
-
-
             return View();
         }
 
@@ -96,7 +97,7 @@ namespace Project.WEB.Controllers
         {
             if (ModelState.IsValid)
             {
-                IdentityUser newUser = new()
+                AppUser newUser = new AppUser()
                 {
                     UserName= registerUser.Username,
                     Email=registerUser.Email
@@ -104,11 +105,30 @@ namespace Project.WEB.Controllers
 
                 var result = await userManager.CreateAsync(newUser, registerUser.Password);
 
+                var registerToken = "";
+
                 if (result.Succeeded)
                 {
-                    //MailSender.SendEmail(registerUser.Email, "Register", $"Merhaba! {registerUser.Username} kayıt işleminiz başarılı şekilde oluşturuldu! Üyeliği tamamlamak için linke tıklayın http://localhost:5001/home/confirmation/" + registerToken);
-                    var registerToken =userManager.GenerateEmailConfirmationTokenAsync(newUser);
-                    return RedirectToAction("Confirmation", new { id = newUser.Id, registerCode = registerToken.Result});
+                    //Bu kısım araştırılacak sorun var!!!
+                    while (true)
+                    {
+                        registerToken = userManager.GenerateEmailConfirmationTokenAsync(newUser).Result;
+                        if (!registerToken.Contains("/"))
+                        {
+                            break;
+                        }
+                    }
+
+                    MailSender.SendEmail(registerUser.Email, "Register", $"Merhaba {registerUser.Username}! kayıt işleminiz başarılı şekilde oluşturuldu! Üyeliği tamamlamak için linke tıklayın https://localhost:5001/home/confirmation/" + newUser.Id + "/" + registerToken);
+
+                    //var callBackUrl = Url.Action("Confirmation", "Home", new { id = newUser.Id, registerCode = registerToken }, protocol: Request.Scheme);
+
+                    //MailSender.SendEmail(registerUser.Email, "Register", $"Merhaba! {registerUser.Username} kayıt işleminiz başarılı şekilde oluşturuldu! Üyeliği tamamlamak için linke tıklayın: <a href=\""+callBackUrl+ "\">link</a>");
+
+                    TempData["result"] = $"{newUser.Email} adresine aktivasyon maili gönderdik. Üyeliğinizi aktif hale getirmek için ilgili linki tıklayın.";
+
+                    //return RedirectToAction("Confirmation", new { id = newUser.Id, registerCode = registerToken.Result});
+                    return View(registerUser);
                 }
                 else
                 {
@@ -120,6 +140,7 @@ namespace Project.WEB.Controllers
 
         public async Task<IActionResult> Confirmation(string id, string registerCode)
         {
+            registerCode = registerCode.ToString();
             if (id!=null && registerCode != null)
             {
                 var user = await userManager.FindByIdAsync(id);
@@ -138,14 +159,15 @@ namespace Project.WEB.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginVM loginUser)
+        public async Task<IActionResult> Login(LoginVM loginVM)
         {
             if (ModelState.IsValid)
             {
-                var user = await userManager.FindByNameAsync(loginUser.Username);
+                var user = await userManager.FindByNameAsync(loginVM.Username);
                 if (user!=null)
                 {
-                    var result = await signInManager.PasswordSignInAsync(user, loginUser.Password, false, false);
+                    //
+                    var result = await signInManager.PasswordSignInAsync(user, loginVM.Password, false, false);
                     if (result.Succeeded)
                     {
                         if (SessionHelper.GetProductFromJson<Cart>(HttpContext.Session, "sepet") != null)

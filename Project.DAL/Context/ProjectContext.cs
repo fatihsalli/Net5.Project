@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Project.DAL.Context
 {
-    public class ProjectContext:IdentityDbContext
+    public class ProjectContext:IdentityDbContext<AppUser,AppUserRole,int>
     {
         public ProjectContext(DbContextOptions<ProjectContext> options) : base(options)
         {

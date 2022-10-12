@@ -9,7 +9,13 @@ namespace Project.Entity.Entity
 {
     public class Order:BaseEntity
     {
+        public Order()
+        {
+            OrderDetails = new List<OrderDetail>();
+        }
+        public string OrderNumber { get; set; }
         public decimal TotalPrice { get; set; }
+        public AppUser User { get; set; }
         public List<OrderDetail> OrderDetails { get; set; }
     }
 }
