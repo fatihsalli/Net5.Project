@@ -190,5 +190,20 @@ namespace Project.WEB.Controllers
             await signInManager.SignOutAsync();
             return RedirectToAction("Index");
         }
+
+        public IActionResult DeleteCartItem(int id)
+        {
+            Cart cart = SessionHelper.GetProductFromJson<Cart>(HttpContext.Session, "sepet");
+            cart.DeleteItem(id);
+
+            //Sepeti güncellemek için
+            SessionHelper.SetProductJson(HttpContext.Session, "sepet", cart);
+
+            return RedirectToAction("MyCart");
+        }
+
+
+
+
     }
 }

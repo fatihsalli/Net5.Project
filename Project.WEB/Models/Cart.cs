@@ -28,6 +28,16 @@ namespace Project.WEB.Models
             }
         }
 
+        public void DeleteItem(int id)
+        {
+            if (_myCart.ContainsKey(id))
+            {
+                _myCart.Remove(id);
+                return;
+            }
+        }
+
+
 
 
     }

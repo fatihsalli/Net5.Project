@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Project.WEB.Utils
 {
-    public class SessionHelper
+    public static class SessionHelper
     {
         //Set
         //Client ile server arasındaki haberleşme http ile gerçekleştirilir. Websitelerindeki https://www.google.com s takısı da güvenlik sertifikası ile ilgilidir.
@@ -26,6 +26,14 @@ namespace Project.WEB.Utils
                 return JsonConvert.DeserializeObject<T>(result);
             }
         }
+
+        //Remove
+        public static void RemoveSession(this ISession session, string key)
+        {
+            session.Remove(key);
+        }
+
+
 
     }
 }
