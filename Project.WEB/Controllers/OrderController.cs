@@ -44,7 +44,8 @@ namespace Project.WEB.Controllers
                 Order order = new();
                 var user = await userManager.GetUserAsync(User);
                 order.User = user;
-                order.OrderNumber = rnd.Next(1, 10000).ToString();
+                order.IsShipped = false;
+                order.OrderNumber = rnd.Next(1, 10000);
                 decimal totalPrice = 0;
 
                 foreach (CartItem item in cart.Mycart)

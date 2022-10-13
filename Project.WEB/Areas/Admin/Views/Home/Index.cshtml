@@ -83,7 +83,9 @@
                             <th>Order No</th>
                             <th>Order Date</th>
                             <th>Total Price</th>
-                            <th>Shipped</th>
+                            <th>Is Shipped</th>
+                            <th>Shipping Detail</th>
+
                         </tr>
                     </thead>
                     <tbody>
@@ -95,7 +97,25 @@
                                 <td>@item.CreatedDate</td>
                                 <td>@item.TotalPrice</td>
                                 <td>
-                                    <a asp-action="ShippingDetail" asp-controller="Home" asp-area="Admin" asp-route-id="@item.Id" class="btn btn-xs btn-warning">Is Shipped?</a>
+                                    @if (item.IsShipped)
+                                    {
+                                        <span class="bg-success">Shipped</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="bg-success">Not Shipped</span>
+                                    }
+                                </td>
+
+                                <td>
+                                    @if (item.IsShipped)
+                                    {
+                                        <a asp-action="Detail" asp-controller="Shipper" asp-area="Admin" asp-route-id="@item.Id" class="btn btn-xs btn-warning">Shipping Detail</a>
+                                    }
+                                    else
+                                    {
+                                        <a asp-action="Index" asp-controller="Shipper" asp-area="Admin" asp-route-orderId="@item.Id" class="btn btn-xs btn-warning">Create Shipping</a>
+                                    }
                                 </td>
                             </tr>
                         }

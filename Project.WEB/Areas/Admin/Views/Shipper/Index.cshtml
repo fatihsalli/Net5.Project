@@ -1,0 +1,47 @@
+﻿@model IQueryable<Shipper>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Shipper List</h3>
+                <div class="card-tools">
+                    <div class="input-group input-group-sm" style="width: 150px;">
+                        <a asp-action="Create" asp-controller="Shipper" asp-area="Admin" class="btn btn-success">New Shipper</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Company Name</th>
+                            <th>Address</th>
+                            <th>Status</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var shipper in Model)
+                        {
+                            <tr>
+                                <td>@shipper.Id</td>
+                                <td>@shipper.CompanyName</td>
+                                <td>@shipper.Address</td>
+                                <td>@shipper.Status</td>
+                                <td>
+                                    <a asp-action="Select" asp-controller="Shipper" asp-area="Admin" asp-route-shipperId="@shipper.Id" class="btn btn-xs btn-warning">Select</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

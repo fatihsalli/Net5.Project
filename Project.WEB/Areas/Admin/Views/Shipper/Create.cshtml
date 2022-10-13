@@ -1,0 +1,38 @@
+﻿@model Shipper
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <!-- general form elements -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Order Number: @ViewData["Order Number"] - Shipper Details</h3>
+            </div>
+            <!-- /.card-header -->
+            <!-- form start -->
+            <form method="post">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label>Company Name</label>
+                        <input asp-for="CompanyName" type="text" class="form-control" placeholder="Enter company name">
+                    </div>
+                    <div class="form-group">
+                        <label>Address</label>
+                        <input asp-for="Address" type="text" class="form-control" placeholder="Enter shipper address">
+                    </div>
+                </div>
+                <!-- /.card-body -->
+
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Create Shipper</button>
+                </div>
+            </form>
+        </div>
+        <!-- /.card -->
+
+    </div>
+</div>
+

@@ -9,9 +9,10 @@ using System.Threading.Tasks;
 
 namespace Project.DAL.Context
 {
-    //AppUser ve AppUserRole isimlerinde class oluşturarak IdentityUserdan miras aldırıyoruz. Sonrasında Guid olan tipi int yaptık ve order tarafında Usersları bağlamış olduk.
+    //AppUser ve AppUserRole isimlerinde class oluşturarak IdentityUserdan miras aldırıyoruz. Sonrasında Guid olan tipi int yaptık ve order tarafında Usersları bağlamış olduk. Id'nin int yapılmış olması doğru bir yaklaşım değil ancak burada "AppUser ve AppUserRole" üzerinden IdentityUser'daki Id tipini değiştirmiş olduk.
     public class ProjectContext:IdentityDbContext<AppUser,AppUserRole,int>
     {
+        //==> IOC Containerdan talep ediyoruz bu sebeple de contructorda  yukarıdaki methodu gönderiyoruz. Bu methot IOC Container tarafında doldurularak Scope olarak instance alınıyor. O yüzden aşağıdaki methoda gerek kalmıyor.
         public ProjectContext(DbContextOptions<ProjectContext> options) : base(options)
         {
 
@@ -23,7 +24,7 @@ namespace Project.DAL.Context
         public DbSet<Shipper> Shippers { get; set; }
 
 
-        //==> IOC Containerdan talep ediyoruz bu sebeple de contructorda  yukarıdaki methodu gönderiyoruz. Bu methot IOC Container tarafında doldurularak Scope olarak instance alınıyor. O yüzden aşağıdaki methoda gerek kalmıyor.
+        
 
         //Database Tasarımı
         //Fluent Api yöntemiyle database ayarlarını güncelliyoruz.
@@ -43,6 +44,11 @@ namespace Project.DAL.Context
             modelBuilder.Entity<Category>().Property(x => x.CategoryName).IsRequired(true);
             modelBuilder.Entity<Category>().Property(x => x.CategoryName).HasMaxLength(50);
             modelBuilder.Entity<Category>().Property(x => x.Description).HasMaxLength(250);
+
+            //Shipper Düzenlemeler
+            modelBuilder.Entity<Shipper>().Property(x => x.CompanyName).IsRequired(true);
+            modelBuilder.Entity<Shipper>().Property(x => x.CompanyName).HasMaxLength(100);
+            modelBuilder.Entity<Shipper>().Property(x => x.Address).HasMaxLength(250);
 
             base.OnModelCreating(modelBuilder);
         }

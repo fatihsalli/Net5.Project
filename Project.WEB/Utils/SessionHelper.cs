@@ -5,8 +5,8 @@ namespace Project.WEB.Utils
 {
     public static class SessionHelper
     {
-        //Set
         //Client ile server arasındaki haberleşme http ile gerçekleştirilir. Websitelerindeki https://www.google.com s takısı da güvenlik sertifikası ile ilgilidir.
+        //Set
         public static void SetProductJson(ISession session,string key,object value)
         {
             session.SetString(key, JsonConvert.SerializeObject(value));

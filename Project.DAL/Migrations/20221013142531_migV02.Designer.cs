@@ -10,8 +10,8 @@ using Project.DAL.Context;
 namespace Project.DAL.Migrations
 {
     [DbContext(typeof(ProjectContext))]
-    [Migration("20221013090240_migV01")]
-    partial class migV01
+    [Migration("20221013142531_migV02")]
+    partial class migV02
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -279,10 +279,10 @@ namespace Project.DAL.Migrations
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("OrderNumber")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("OrderNumber")
+                        .HasColumnType("int");
 
-                    b.Property<int>("ShipperId")
+                    b.Property<int?>("ShipperId")
                         .HasColumnType("int");
 
                     b.Property<int>("Status")
@@ -398,10 +398,13 @@ namespace Project.DAL.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("CompanyName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -478,9 +481,7 @@ namespace Project.DAL.Migrations
                 {
                     b.HasOne("Project.Entity.Entity.Shipper", "Shipper")
                         .WithMany("Orders")
-                        .HasForeignKey("ShipperId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ShipperId");
 
                     b.HasOne("Project.Entity.Entity.AppUser", "User")
                         .WithMany()

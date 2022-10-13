@@ -41,11 +41,7 @@ namespace Project.WEB.Areas.Admin.Controllers
             return View(orderRepository.GetAll().OrderByDescending(x=> x.Id));
         }
 
-        public IActionResult ShippingDetail(int id)
-        {
-            var order=orderRepository.GetById(id);
-            return View(order);
-        }
+
 
 
 

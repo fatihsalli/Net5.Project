@@ -1,0 +1,37 @@
+﻿@model Shipper
+@{
+    ViewData["Title"] = "Detail";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Shipper Detail</h3>
+            </div>
+
+            <div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap">
+                    <thead>
+                        <tr>
+                            <th>Order Number</th>
+                            <th>ShipperId</th>
+                            <th>Company Name</th>
+                            <th>Address</th>
+                        </tr>
+                    </thead>
+                    <tbody>                        
+                        <tr>
+                            <td>@ViewBag.OrderNumber</td>
+                            <td>@Model.Id</td>
+                            <td>@Model.CompanyName</td>
+                            <td>@Model.Address</td>
+                        </tr>                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

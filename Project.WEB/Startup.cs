@@ -11,6 +11,7 @@ using Project.BLL.Repositories.CategoryRepository;
 using Project.BLL.Repositories.OrderDetailRepository;
 using Project.BLL.Repositories.OrderRepository;
 using Project.BLL.Repositories.ProductRepository;
+using Project.BLL.Repositories.ShipperRepository;
 using Project.DAL.Context;
 using Project.Entity.Entity;
 using System;
@@ -54,6 +55,7 @@ namespace Project.WEB
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
+            services.AddScoped<IShipperRepository, ShipperRepository>();
 
             //Sepet
             services.AddSession(x =>
