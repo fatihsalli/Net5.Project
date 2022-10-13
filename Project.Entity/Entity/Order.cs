@@ -15,6 +15,9 @@ namespace Project.Entity.Entity
         }
         public string OrderNumber { get; set; }
         public decimal TotalPrice { get; set; }
+        public bool IsShipped { get; set; }
+        public int ShipperId { get; set; }
+        public Shipper Shipper { get; set; }
         public AppUser User { get; set; }
         public List<OrderDetail> OrderDetails { get; set; }
     }

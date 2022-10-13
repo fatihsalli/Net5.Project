@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Project.DAL.Context
 {
+    //AppUser ve AppUserRole isimlerinde class oluşturarak IdentityUserdan miras aldırıyoruz. Sonrasında Guid olan tipi int yaptık ve order tarafında Usersları bağlamış olduk.
     public class ProjectContext:IdentityDbContext<AppUser,AppUserRole,int>
     {
         public ProjectContext(DbContextOptions<ProjectContext> options) : base(options)
@@ -19,6 +20,7 @@ namespace Project.DAL.Context
         public DbSet<Category> Categories { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
+        public DbSet<Shipper> Shippers { get; set; }
 
 
         //==> IOC Containerdan talep ediyoruz bu sebeple de contructorda  yukarıdaki methodu gönderiyoruz. Bu methot IOC Container tarafında doldurularak Scope olarak instance alınıyor. O yüzden aşağıdaki methoda gerek kalmıyor.

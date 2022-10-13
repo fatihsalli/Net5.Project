@@ -105,30 +105,24 @@ namespace Project.WEB.Controllers
 
                 var result = await userManager.CreateAsync(newUser, registerUser.Password);
 
-                var registerToken = "";
-
                 if (result.Succeeded)
                 {
                     //Bu kısım araştırılacak sorun var!!!
-                    while (true)
-                    {
-                        registerToken = userManager.GenerateEmailConfirmationTokenAsync(newUser).Result;
-                        if (!registerToken.Contains("/"))
-                        {
-                            break;
-                        }
-                    }
+                    var registerToken = userManager.GenerateEmailConfirmationTokenAsync(newUser).Result;
+                    Random rnd = new Random();
+                    string code = "Merhaba";
+                    var callBackUrl = Url.Action("Confirmation", "Home", new { id = newUser.Id, code = code }, protocol: Request.Scheme);
 
-                    MailSender.SendEmail(registerUser.Email, "Register", $"Merhaba {registerUser.Username}! kayıt işleminiz başarılı şekilde oluşturuldu! Üyeliği tamamlamak için linke tıklayın https://localhost:5001/home/confirmation/" + newUser.Id + "/" + registerToken);
+                    MailSender.SendEmail(registerUser.Email, "Register", $"Merhaba! {registerUser.Username} kayıt işleminiz başarılı şekilde oluşturuldu! Üyeliği tamamlamak için linke tıklayın: <a href=\"" + callBackUrl + "\">link</a>");
 
-                    //var callBackUrl = Url.Action("Confirmation", "Home", new { id = newUser.Id, registerCode = registerToken }, protocol: Request.Scheme);
-
-                    //MailSender.SendEmail(registerUser.Email, "Register", $"Merhaba! {registerUser.Username} kayıt işleminiz başarılı şekilde oluşturuldu! Üyeliği tamamlamak için linke tıklayın: <a href=\""+callBackUrl+ "\">link</a>");
+                    //MailSender.SendEmail(registerUser.Email, "Register", $"Merhaba {registerUser.Username}! kayıt işleminiz başarılı şekilde oluşturuldu! Üyeliği tamamlamak için linke tıklayın https://localhost:5001/home/confirmation/" + newUser.Id + "/" + registerToken);
+                    TempData["Code"] = code;
+                    TempData["RegisterToken"] = registerToken;
 
                     TempData["result"] = $"{newUser.Email} adresine aktivasyon maili gönderdik. Üyeliğinizi aktif hale getirmek için ilgili linki tıklayın.";
 
                     //return RedirectToAction("Confirmation", new { id = newUser.Id, registerCode = registerToken.Result});
-                    return View(registerUser);
+                    return RedirectToAction("Login");
                 }
                 else
                 {
@@ -138,13 +132,12 @@ namespace Project.WEB.Controllers
             return View(registerUser);
         }
 
-        public async Task<IActionResult> Confirmation(string id, string registerCode)
+        public async Task<IActionResult> Confirmation(string id, string code)
         {
-            registerCode = registerCode.ToString();
-            if (id!=null && registerCode != null)
+            if (id!=null && code =="Merhaba")
             {
                 var user = await userManager.FindByIdAsync(id);
-                var confirm= await userManager.ConfirmEmailAsync(user, registerCode);
+                var confirm = await userManager.ConfirmEmailAsync(user, TempData["RegisterToken"] as string);
                 if (confirm.Succeeded)
                 {
                     return RedirectToAction("Login");
@@ -166,7 +159,6 @@ namespace Project.WEB.Controllers
                 var user = await userManager.FindByNameAsync(loginVM.Username);
                 if (user!=null)
                 {
-                    //
                     var result = await signInManager.PasswordSignInAsync(user, loginVM.Password, false, false);
                     if (result.Succeeded)
                     {
@@ -198,7 +190,6 @@ namespace Project.WEB.Controllers
 
             //Sepeti güncellemek için
             SessionHelper.SetProductJson(HttpContext.Session, "sepet", cart);
-
             return RedirectToAction("MyCart");
         }
 

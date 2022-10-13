@@ -271,11 +271,17 @@ namespace Project.DAL.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsShipped")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("OrderNumber")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ShipperId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -287,6 +293,8 @@ namespace Project.DAL.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ShipperId");
 
                     b.HasIndex("UserId");
 
@@ -380,6 +388,39 @@ namespace Project.DAL.Migrations
                     b.ToTable("Products");
                 });
 
+            modelBuilder.Entity("Project.Entity.Entity.Shipper", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CompanyName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Shippers");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.HasOne("Project.Entity.Entity.AppUserRole", null)
@@ -433,9 +474,17 @@ namespace Project.DAL.Migrations
 
             modelBuilder.Entity("Project.Entity.Entity.Order", b =>
                 {
+                    b.HasOne("Project.Entity.Entity.Shipper", "Shipper")
+                        .WithMany("Orders")
+                        .HasForeignKey("ShipperId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Project.Entity.Entity.AppUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
+
+                    b.Navigation("Shipper");
 
                     b.Navigation("User");
                 });
@@ -483,6 +532,11 @@ namespace Project.DAL.Migrations
             modelBuilder.Entity("Project.Entity.Entity.Product", b =>
                 {
                     b.Navigation("OrderDetails");
+                });
+
+            modelBuilder.Entity("Project.Entity.Entity.Shipper", b =>
+                {
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

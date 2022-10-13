@@ -1,4 +1,4 @@
-﻿@model decimal
+﻿@model IQueryable<Order>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
@@ -58,7 +58,7 @@
         <div class="small-box bg-danger">
             <div class="inner">
 
-                <h2>@Model TL</h2>
+                <h2>@TempData["TotalIncome"] TL</h2>
 
                 <p>Toplam Gelir</p>
             </div>
@@ -86,6 +86,20 @@
                             <th>Shipped</th>
                         </tr>
                     </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Id</td>
+                                <td>@item.OrderNumber</td>
+                                <td>@item.CreatedDate</td>
+                                <td>@item.TotalPrice</td>
+                                <td>
+                                    <a asp-action="ShippingDetail" asp-controller="Home" asp-area="Admin" asp-route-id="@item.Id" class="btn btn-xs btn-warning">Is Shipped?</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
                 </table>
             </div>
 

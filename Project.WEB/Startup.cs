@@ -112,7 +112,7 @@ namespace Project.WEB
                 //Confirmation Route
                 endpoints.MapControllerRoute(
                     name: "confirmation",
-                    pattern: "{controller=Home}/{action=Confirmation}/{id}/{registerCode}");
+                    pattern: "{controller=Home}/{action=Confirmation}/{id}/{code}");
 
                 //Default Route
                 endpoints.MapControllerRoute(

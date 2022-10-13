@@ -30,13 +30,26 @@ namespace Project.WEB.Areas.Admin.Controllers
             TempData["Orders"] =orderRepository.GetAll().Count();
             TempData["Products"] = productRepository.GetAll().Count();
             TempData["Users"] = userManager.Users.Count();
+
             decimal income = 0;
             foreach (var item in orderRepository.GetAll())
             {
                 income += item.TotalPrice;
             }
+            TempData["TotalIncome"] = income;
 
-            return View(income);
+            return View(orderRepository.GetAll().OrderByDescending(x=> x.Id));
         }
+
+        public IActionResult ShippingDetail(int id)
+        {
+            var order=orderRepository.GetById(id);
+            return View(order);
+        }
+
+
+
+
+
     }
 }
