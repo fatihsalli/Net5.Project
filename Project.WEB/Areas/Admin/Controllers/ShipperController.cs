@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Project.BLL.Repositories.OrderDetailRepository;
 using Project.BLL.Repositories.OrderRepository;
 using Project.BLL.Repositories.ShipperRepository;
 using Project.Common;
@@ -6,6 +8,7 @@ using Project.Entity.Entity;
 using Project.WEB.Areas.Admin.Models;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Project.WEB.Areas.Admin.Controllers
 {
@@ -14,11 +17,13 @@ namespace Project.WEB.Areas.Admin.Controllers
     {
         private readonly IOrderRepository orderRepository;
         private readonly IShipperRepository shipperRepository;
+        private readonly UserManager<AppUser> userManager;
 
-        public ShipperController(IOrderRepository orderRepository,IShipperRepository shipperRepository)
+        public ShipperController(IOrderRepository orderRepository,IShipperRepository shipperRepository, UserManager<AppUser> userManager)
         {
             this.orderRepository = orderRepository;
             this.shipperRepository = shipperRepository;
+            this.userManager = userManager;
         }
 
         public IActionResult Index(int orderId)
@@ -27,12 +32,17 @@ namespace Project.WEB.Areas.Admin.Controllers
             return View(shipperRepository.GetAll());
         }
 
-        public IActionResult Select(int shipperId)
+        public async Task<IActionResult> Select(int shipperId)
         {
             Order order = (Order)TransformHelper.transformObject;
             order.ShipperId = shipperId;
             order.IsShipped = true;
             orderRepository.Update(order);
+
+            var user = await userManager.FindByIdAsync(order.UserId.ToString());
+
+            MailSender.SendEmail(user.Email, "Siparişiniz Kargoya Verilmiştir", $"#{order.OrderNumber} numaralı siparişiniz kargoya verilmiştir!");
+
             return RedirectToAction("Index","Home");
         }
 
