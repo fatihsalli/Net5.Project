@@ -63,9 +63,12 @@ namespace Project.WEB.Controllers
                     orderDetail.UnitPrice = cartItem.UnitPrice;
                     orderDetail.Quantity = cartItem.Quantity;
                     orderDetail.OrderId = orderRepository.GetAll().Max(x => x.Id);
+
+                    //Stoktan ürün miktarının düşülmesi için oluşturulmuştur. Ayrıca HomeController-AddToCart Action'ı için sepete stoktan fazla ürün eklenememesi için algoritma geliştirilmiştir.
                     Product product = productRepository.GetById(orderDetail.ProductId);
                     product.UnitsInStock =Convert.ToInt16(product.UnitsInStock - orderDetail.Quantity);
                     productRepository.Update(product);
+
                     orderDetailRepository.Insert(orderDetail);
                 };                
 
