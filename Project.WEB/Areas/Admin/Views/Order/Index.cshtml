@@ -12,6 +12,7 @@
                     <thead>
                         <tr>
                             <th>Order Id</th>
+                            <th>Order Number</th>
                             <th>Total Price</th>
                             <th>Status</th>
                             <th>Order Date</th>
@@ -22,11 +23,16 @@
                         {
                             <tr>
                                 <td>@item.Id</td>
-                                <td>@item.TotalPrice</td>
+                                <td>@item.OrderNumber</td>
+                                <td>@item.TotalPrice $</td>
                                 <td>@item.Status</td>
                                 <td>@item.CreatedDate</td>
                             </tr>
                         }
+                        <tr>
+                            
+                            <td colspan="5" class="text-bold"><h5>Total Income: @TempData["TotalIncome"] $</h5></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

@@ -41,11 +41,5 @@ namespace Project.WEB.Areas.Admin.Controllers
             return View(orderRepository.GetAll().OrderByDescending(x=> x.Id));
         }
 
-
-
-
-
-
-
     }
 }

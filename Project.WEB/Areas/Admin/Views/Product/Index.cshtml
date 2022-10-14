@@ -8,7 +8,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Category List</h3>
+                <h3 class="card-title">Product List</h3>
                 <div class="card-tools">
                     <div class="input-group input-group-sm" style="width: 150px;">
                         <a asp-action="Create" asp-controller="Product" asp-area="Admin" class="btn btn-success">New Product</a>
@@ -35,7 +35,7 @@
                                 <tr>
                                     <td>@item.Id</td>
                                     <td>@item.ProductName</td>
-                                    <td>@item.UnitPrice</td>
+                                    <td>@item.UnitPrice $</td>
                                     <td>@item.UnitsInStock</td>
                                     <td>@item.CategoryId</td>
                                     <td>@item.Status</td>

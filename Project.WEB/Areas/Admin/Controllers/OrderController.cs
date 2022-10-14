@@ -9,17 +9,25 @@ namespace Project.WEB.Areas.Admin.Controllers
     [Area("Admin")]
     public class OrderController : Controller
     {
-        private readonly IOrderRepository _orderRepository;
+        private readonly IOrderRepository orderRepository;
 
         public OrderController(IOrderRepository orderRepository)
         {
-            _orderRepository = orderRepository;
+            this.orderRepository = orderRepository;
         }
 
         public IActionResult Index()
         {
-            @TempData["Title"] = "Orders";
-            return View(_orderRepository.GetAll());
+            decimal income = 0;
+            foreach (var item in orderRepository.GetAll())
+            {
+                income += item.TotalPrice;
+            }
+            TempData["TotalIncome"] = income;
+
+
+            TempData["Title"] = "Orders";
+            return View(orderRepository.GetAll());
         }
 
     }
