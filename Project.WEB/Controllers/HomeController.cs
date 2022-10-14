@@ -6,6 +6,7 @@ using Project.BLL.Repositories.CategoryRepository;
 using Project.BLL.Repositories.ProductRepository;
 using Project.Common;
 using Project.Entity.Entity;
+using Project.WEB.Areas.Admin.Models;
 using Project.WEB.Models;
 using Project.WEB.Models.ViewModels;
 using Project.WEB.Utils;
@@ -95,6 +96,7 @@ namespace Project.WEB.Controllers
 
         public IActionResult Register()
         {
+            TempData["result"] = null;
             return View();
         }
 
@@ -108,27 +110,28 @@ namespace Project.WEB.Controllers
                     UserName= registerUser.Username,
                     Email=registerUser.Email
                 };
-
+                Random rnd = new Random();
+                int coupon = rnd.Next(10, 100);
+                newUser.CouponCode = "WELCOME" + coupon.ToString();
                 var result = await userManager.CreateAsync(newUser, registerUser.Password);
-
+               
                 if (result.Succeeded)
                 {
                     //Bu kısım araştırılacak sorun var!!!
                     var registerToken = userManager.GenerateEmailConfirmationTokenAsync(newUser).Result;
-                    Random rnd = new Random();
-                    string code = "Merhaba";
-                    var callBackUrl = Url.Action("Confirmation", "Home", new { id = newUser.Id, code = code }, protocol: Request.Scheme);
-
-                    MailSender.SendEmail(registerUser.Email, "Register", $"Merhaba! {registerUser.Username} kayıt işleminiz başarılı şekilde oluşturuldu! Üyeliği tamamlamak için linke tıklayın: <a href=\"" + callBackUrl + "\">link</a>");
-
-                    //MailSender.SendEmail(registerUser.Email, "Register", $"Merhaba {registerUser.Username}! kayıt işleminiz başarılı şekilde oluşturuldu! Üyeliği tamamlamak için linke tıklayın https://localhost:5001/home/confirmation/" + newUser.Id + "/" + registerToken);
-                    TempData["Code"] = code;
+                    string code = Guid.NewGuid().ToString();
+                    TransformHelper.transformObject = code;
                     TempData["RegisterToken"] = registerToken;
 
+                    var callBackUrl = Url.Action("Confirmation", "Home", new { id = newUser.Id, code = code }, protocol: Request.Scheme);
+
+                    MailSender.SendEmail(registerUser.Email, "Register", $"Merhaba! {registerUser.Username} kayıt işleminiz başarılı şekilde oluşturuldu! Yeni üyelere özel %10 hoşgeldiniz indirim kuponunuz {newUser.CouponCode} kodu ile tanımlandı. Üyeliği tamamlamak için linke tıklayın: <a href=\"" + callBackUrl + "\">link</a>");
+
+                    //MailSender.SendEmail(registerUser.Email, "Register", $"Merhaba {registerUser.Username}! kayıt işleminiz başarılı şekilde oluşturuldu! Üyeliği tamamlamak için linke tıklayın https://localhost:5001/home/confirmation/" + newUser.Id + "/" + registerToken);
+                    
                     TempData["result"] = $"{newUser.Email} adresine aktivasyon maili gönderdik. Üyeliğinizi aktif hale getirmek için ilgili linki tıklayın.";
 
-                    //return RedirectToAction("Confirmation", new { id = newUser.Id, registerCode = registerToken.Result});
-                    return RedirectToAction("Login");
+                    return View(registerUser);
                 }
                 else
                 {
@@ -140,7 +143,7 @@ namespace Project.WEB.Controllers
 
         public async Task<IActionResult> Confirmation(string id, string code)
         {
-            if (id!=null && code =="Merhaba")
+            if (id!=null && code == (string)TransformHelper.transformObject)
             {
                 var user = await userManager.FindByIdAsync(id);
                 var confirm = await userManager.ConfirmEmailAsync(user, TempData["RegisterToken"] as string);
@@ -149,7 +152,7 @@ namespace Project.WEB.Controllers
                     return RedirectToAction("Login");
                 }
             }
-            return View();
+            return RedirectToAction("Index");
         }
 
         public IActionResult Login()

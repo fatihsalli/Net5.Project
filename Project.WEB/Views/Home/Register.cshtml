@@ -1,5 +1,4 @@
-﻿
-@model RegisterVM
+﻿@model RegisterVM
 @{
     ViewData["Title"] = "Register";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -10,6 +9,13 @@
         <div class="card">
             <div class="card-header">
                 <h3>User Register</h3>
+                @{if (TempData["result"] != null)
+                    {
+                        <div class="alert alert-success">
+                            @TempData["result"]
+                        </div>
+                    }
+                }
             </div>
             <div class="card-body">
                 <form method="post">
