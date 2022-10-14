@@ -74,10 +74,13 @@ namespace Project.WEB.Controllers
             }
         }
 
-        public IActionResult MyCart()
+        public async Task<IActionResult> MyCart()
         {
             if (User.Identity.IsAuthenticated)
             {
+                var user = await userManager.GetUserAsync(User);
+                ViewBag.Coupon = user.CouponCode;
+
                 if (SessionHelper.GetProductFromJson<Cart>(HttpContext.Session, "sepet") != null)
                 {
                     Cart sepet = SessionHelper.GetProductFromJson<Cart>(HttpContext.Session, "sepet");
@@ -91,6 +94,28 @@ namespace Project.WEB.Controllers
             else
             {
                 return RedirectToAction("Login");
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> MyCart(string couponCode)
+        {
+            var user = await userManager.GetUserAsync(User);
+
+            if (couponCode==user.CouponCode)
+            {
+                Cart sepet = SessionHelper.GetProductFromJson<Cart>(HttpContext.Session, "sepet");
+
+                foreach (CartItem item in sepet.Mycart)
+                {
+                    item.UnitPrice = ((item.UnitPrice * 90)/100);
+                }
+                SessionHelper.SetProductJson(HttpContext.Session, "sepet", sepet);
+                return RedirectToAction("MyCart");
+            }
+            else
+            {
+                return RedirectToAction("MyCart");
             }
         }
 
@@ -117,10 +142,12 @@ namespace Project.WEB.Controllers
                
                 if (result.Succeeded)
                 {
-                    //Bu kısım araştırılacak sorun var!!!
                     var registerToken = userManager.GenerateEmailConfirmationTokenAsync(newUser).Result;
                     string code = Guid.NewGuid().ToString();
                     TransformHelper.transformObject = code;
+
+                    //TempData burada neden çalışmıyor??
+                    //TempData["Code"] = code;
                     TempData["RegisterToken"] = registerToken;
 
                     var callBackUrl = Url.Action("Confirmation", "Home", new { id = newUser.Id, code = code }, protocol: Request.Scheme);
@@ -130,7 +157,6 @@ namespace Project.WEB.Controllers
                     //MailSender.SendEmail(registerUser.Email, "Register", $"Merhaba {registerUser.Username}! kayıt işleminiz başarılı şekilde oluşturuldu! Üyeliği tamamlamak için linke tıklayın https://localhost:5001/home/confirmation/" + newUser.Id + "/" + registerToken);
                     
                     TempData["result"] = $"{newUser.Email} adresine aktivasyon maili gönderdik. Üyeliğinizi aktif hale getirmek için ilgili linki tıklayın.";
-
                     return View(registerUser);
                 }
                 else
@@ -199,6 +225,12 @@ namespace Project.WEB.Controllers
 
             //Sepeti güncellemek için
             SessionHelper.SetProductJson(HttpContext.Session, "sepet", cart);
+
+            if (cart.Mycart.Count==0)
+            {
+                SessionHelper.RemoveSession(HttpContext.Session, "sepet");
+            }
+
             return RedirectToAction("MyCart");
         }
 
