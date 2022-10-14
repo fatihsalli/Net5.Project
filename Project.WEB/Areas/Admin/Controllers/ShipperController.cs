@@ -68,12 +68,9 @@ namespace Project.WEB.Areas.Admin.Controllers
             shipper.CompanyName = fakeShipper.CompanyName;
             shipper.Address = fakeShipper.Address;
             shipperRepository.Insert(shipper);
-
             Order order = (Order)TransformHelper.transformObject;
-            order.ShipperId = shipperRepository.GetAll().Max(x => x.Id);
-            order.IsShipped = true;
-            orderRepository.Update(order);
-            return RedirectToAction("Index", "Home");
+            //Action / Controller / routeValue ile orderid'yi başka actiona gönderebildik.
+            return RedirectToAction("Index","Shipper",new { @orderId = order.Id });
         }
 
 

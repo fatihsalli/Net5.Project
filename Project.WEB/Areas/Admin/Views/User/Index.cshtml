@@ -1,4 +1,4 @@
-﻿@model IQueryable<IdentityUser>
+﻿@model IQueryable<AppUser>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
@@ -13,7 +13,7 @@
                         <tr>
                             <th>UserName</th>
                             <th>Email</th>
-                            <th>PhoneNumber</th>
+                            <th>Email Confirmed</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -22,7 +22,7 @@
                             <tr>
                                 <td>@item.UserName</td>
                                 <td>@item.Email</td>
-                                <td>@item.PhoneNumber</td>
+                                <td>@item.EmailConfirmed</td>
                             </tr>
                         }
                     </tbody>
