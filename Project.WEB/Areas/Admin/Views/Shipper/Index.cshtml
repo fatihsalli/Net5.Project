@@ -22,7 +22,7 @@
                             <th>#</th>
                             <th>Company Name</th>
                             <th>Address</th>
-                            <th>Status</th>
+                            <th>CreatedDate</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -33,7 +33,7 @@
                                 <td>@shipper.Id</td>
                                 <td>@shipper.CompanyName</td>
                                 <td>@shipper.Address</td>
-                                <td>@shipper.Status</td>
+                                <td>@shipper.CreatedDate</td>
                                 <td>
                                     <a asp-action="Select" asp-controller="Shipper" asp-area="Admin" asp-route-shipperId="@shipper.Id" class="btn btn-xs btn-warning">Select</a>
                                 </td>

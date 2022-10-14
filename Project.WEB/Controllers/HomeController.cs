@@ -39,9 +39,7 @@ namespace Project.WEB.Controllers
 
         public IActionResult AddToCart(int id)
         {
-
             Cart cartSession;
-
             if (SessionHelper.GetProductFromJson<Cart>(HttpContext.Session,"sepet")==null)
             {
                 cartSession = new Cart();
@@ -60,11 +58,19 @@ namespace Project.WEB.Controllers
                 UnitPrice=product.UnitPrice
             };
 
-            cartSession.AddItem(cartItem);
+            //Bu method sepete stoktan fazla ürün eklenmemesi için oluşturulmuştur.
+            var result=StockCheck.GetStockCheck(product.UnitsInStock, product.Id);
 
-            SessionHelper.SetProductJson(HttpContext.Session, "sepet", cartSession);
-
-            return RedirectToAction("Index");
+            if (result)
+            {
+                cartSession.AddItem(cartItem);
+                SessionHelper.SetProductJson(HttpContext.Session, "sepet", cartSession);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
         }
 
         public IActionResult MyCart()

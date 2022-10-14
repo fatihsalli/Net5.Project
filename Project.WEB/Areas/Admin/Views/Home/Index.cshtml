@@ -94,20 +94,23 @@
                                 <td>@item.Id</td>
                                 <td>@item.OrderNumber</td>
                                 <td>@item.CreatedDate</td>
-                                <td>@item.TotalPrice</td>
+                                <td>@item.TotalPrice $</td>
                                 <td>
-                                    @if (item.IsShipped)
+                                    @switch (item.ShipperStatus)
                                     {
-                                        <span class="bg-success">Shipped</span>
-                                    }
-                                    else
-                                    {
-                                        <span class="bg-success">Not Shipped</span>
+                                        case Project.Entity.Enum.ShipStatus.NotShipped:
+                                            <span class="bg-success">Not Shipped</span>
+                                            break;
+                                        case Project.Entity.Enum.ShipStatus.Shipped:
+                                            <span class="bg-success">Shipped</span>
+                                            break;
+                                        case Project.Entity.Enum.ShipStatus.Delivered:
+                                            <span class="bg-success">Delivered</span>
+                                            break;
                                     }
                                 </td>
-
                                 <td>
-                                    @if (item.IsShipped)
+                                    @if (item.ShipperStatus != Project.Entity.Enum.ShipStatus.NotShipped)
                                     {
                                         <a asp-action="Detail" asp-controller="Shipper" asp-area="Admin" asp-route-id="@item.Id" class="btn btn-xs btn-warning">Shipping Detail</a>
                                     }

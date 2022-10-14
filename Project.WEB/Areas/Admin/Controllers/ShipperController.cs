@@ -5,6 +5,7 @@ using Project.BLL.Repositories.OrderRepository;
 using Project.BLL.Repositories.ShipperRepository;
 using Project.Common;
 using Project.Entity.Entity;
+using Project.Entity.Enum;
 using Project.WEB.Areas.Admin.Models;
 using System;
 using System.Linq;
@@ -36,7 +37,8 @@ namespace Project.WEB.Areas.Admin.Controllers
         {
             Order order = (Order)TransformHelper.transformObject;
             order.ShipperId = shipperId;
-            order.IsShipped = true;
+            order.ShippedDate = DateTime.Now;
+            order.ShipperStatus=ShipStatus.Shipped;
             orderRepository.Update(order);
 
             var user = await userManager.FindByIdAsync(order.UserId.ToString());
@@ -49,9 +51,18 @@ namespace Project.WEB.Areas.Admin.Controllers
         public IActionResult Detail(int id)
         {
             Order order=orderRepository.GetById(id);
-            ViewBag.OrderNumber = order.OrderNumber;
+            ViewBag.Order = order;
             Shipper shipper=shipperRepository.GetById(Convert.ToInt32(order.ShipperId));
             return View(shipper);
+        }
+
+        public IActionResult Delivered(int id)
+        {
+            Order order = orderRepository.GetById(id);
+            order.ShipperStatus = ShipStatus.Delivered;
+            order.DeliveredDate = DateTime.Now;
+            orderRepository.Update(order);
+            return RedirectToAction("Index","Home");
         }
 
         public IActionResult Create()
@@ -69,6 +80,7 @@ namespace Project.WEB.Areas.Admin.Controllers
             shipper.Address = fakeShipper.Address;
             shipperRepository.Insert(shipper);
             Order order = (Order)TransformHelper.transformObject;
+
             //Action / Controller / routeValue ile orderid'yi başka actiona gönderebildik.
             return RedirectToAction("Index","Shipper",new { @orderId = order.Id });
         }

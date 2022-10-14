@@ -40,20 +40,20 @@ namespace Project.WEB.Controllers
 
             if (User.Identity.IsAuthenticated)
             {
-                Random rnd = new Random();
-                Order order = new();
+                CompleteCart completeCart = new();                
+                int randomNumber = completeCart.RandomNumber();
                 var user = await userManager.GetUserAsync(User);
-                order.User = user;
-                order.IsShipped = false;
-                order.OrderNumber = rnd.Next(1, 10000);
-                decimal totalPrice = 0;
-
-                foreach (CartItem item in cart.Mycart)
+                
+                while (true)
                 {
-                    totalPrice += item.SubTotal;
+                    if (completeCart.RandomNumberCheck(orderRepository.GetAll(),randomNumber))
+                    {
+                        break;
+                    }
+                    randomNumber = completeCart.RandomNumber();
                 }
 
-                order.TotalPrice = totalPrice;
+                Order order = completeCart.AddOrder(user,cart,randomNumber);
                 orderRepository.Insert(order);
 
                 foreach (CartItem cartItem in cart.Mycart)

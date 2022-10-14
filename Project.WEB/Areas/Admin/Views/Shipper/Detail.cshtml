@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "Detail";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+    Order order = ViewBag.Order;
 }
 
 <div class="row">
@@ -16,17 +17,43 @@
                     <thead>
                         <tr>
                             <th>Order Number</th>
-                            <th>ShipperId</th>
+                            <th>Ship Status</th>
+                            <th>Shipped Date</th>
+                            <th>Delivered Date</th>
                             <th>Company Name</th>
                             <th>Address</th>
+                            <th>Is Delivered?</th>
                         </tr>
                     </thead>
                     <tbody>                        
                         <tr>
-                            <td>@ViewBag.OrderNumber</td>
-                            <td>@Model.Id</td>
+                            <td>@order.OrderNumber</td>
+                            <td>@order.ShipperStatus</td>
+                            <td>@order.ShippedDate</td>
+                            @if (order.DeliveredDate == null)
+                            {
+                                <td>Not Delivered</td>
+                            }
+                            else
+                            {
+                                <td>@order.DeliveredDate</td>
+                            }
+
+
+
                             <td>@Model.CompanyName</td>
                             <td>@Model.Address</td>
+                            @if (order.DeliveredDate == null)
+                            {
+                                <td>
+                                    <a asp-action="Delivered" asp-controller="Shipper" asp-area="Admin" asp-route-id="@order.Id" class="btn btn-xs btn-warning">Is Delivered</a>
+                                </td>
+                            }
+                            else
+                            {
+                                <td>Delivered</td>
+                            }
+
                         </tr>                        
                     </tbody>
                 </table>

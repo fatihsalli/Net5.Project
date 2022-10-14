@@ -10,7 +10,7 @@ using Project.DAL.Context;
 namespace Project.DAL.Migrations
 {
     [DbContext(typeof(ProjectContext))]
-    [Migration("20221013174347_migV01")]
+    [Migration("20221014120125_mig-V01")]
     partial class migV01
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -137,6 +137,9 @@ namespace Project.DAL.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CouponCode")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
@@ -270,10 +273,10 @@ namespace Project.DAL.Migrations
                     b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
+                    b.Property<DateTime?>("DeliveredDate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsShipped")
+                    b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("ModifiedDate")
@@ -282,7 +285,13 @@ namespace Project.DAL.Migrations
                     b.Property<int>("OrderNumber")
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("ShippedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<int?>("ShipperId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ShipperStatus")
                         .HasColumnType("int");
 
                     b.Property<int>("Status")

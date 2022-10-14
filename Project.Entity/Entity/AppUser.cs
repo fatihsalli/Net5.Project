@@ -10,6 +10,8 @@ namespace Project.Entity.Entity
     public class AppUser:IdentityUser<int>
     {
         public string Address { get; set; }
+        public string CouponCode { get; set; }
+
 
     }
 }

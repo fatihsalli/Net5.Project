@@ -1,4 +1,5 @@
 ﻿using Project.Entity.Abstract;
+using Project.Entity.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +13,13 @@ namespace Project.Entity.Entity
         public Order()
         {
             OrderDetails = new List<OrderDetail>();
+            ShipperStatus = ShipStatus.NotShipped;
         }
         public int OrderNumber { get; set; }
         public decimal TotalPrice { get; set; }
-        public bool IsShipped { get; set; }
+        public ShipStatus ShipperStatus { get; set; }
+        public DateTime? ShippedDate { get; set; }
+        public DateTime? DeliveredDate { get; set; }
         public int? ShipperId { get; set; }
         public int UserId { get; set; }
         public Shipper Shipper { get; set; }

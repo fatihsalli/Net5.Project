@@ -29,6 +29,7 @@ namespace Project.DAL.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CouponCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -230,7 +231,9 @@ namespace Project.DAL.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     OrderNumber = table.Column<int>(type: "int", nullable: false),
                     TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    IsShipped = table.Column<bool>(type: "bit", nullable: false),
+                    ShipperStatus = table.Column<int>(type: "int", nullable: false),
+                    ShippedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeliveredDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ShipperId = table.Column<int>(type: "int", nullable: true),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),

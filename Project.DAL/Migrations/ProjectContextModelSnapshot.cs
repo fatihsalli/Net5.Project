@@ -137,6 +137,9 @@ namespace Project.DAL.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("CouponCode")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -268,10 +271,10 @@ namespace Project.DAL.Migrations
                     b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
+                    b.Property<DateTime?>("DeliveredDate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsShipped")
+                    b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("ModifiedDate")
@@ -280,7 +283,13 @@ namespace Project.DAL.Migrations
                     b.Property<int>("OrderNumber")
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("ShippedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<int?>("ShipperId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ShipperStatus")
                         .HasColumnType("int");
 
                     b.Property<int>("Status")
