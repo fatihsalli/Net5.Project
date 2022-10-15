@@ -16,7 +16,8 @@
                                 <th>Product</th>
                                 <th>Quantity</th>
                                 <th>Price</th>
-                                <th>Edit</th>
+                                <th colspan="2" class="col-sm-2 text-center">Edit</th>
+                                <th></th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -29,7 +30,13 @@
                                     <td>@item.Quantity</td>
                                     <td>@item.UnitPrice</td>
                                     <td>
-                                        <div class="col-sm-3">
+                                        <a asp-action="IncreaseCart" asp-controller="Home" asp-route-id="@item.Id" class="btn btn-primary btn-sm">Up</a>
+                                    </td>
+                                    <td>
+                                        <a asp-action="DecreaseCart" asp-controller="Home" asp-route-id="@item.Id" class="btn btn-primary btn-sm">Down</a>
+                                    </td>
+                                    <td>
+                                        <div class="col-sm-2">
                                             <input type="number" class="form-control" value="@item.Quantity" />
                                         </div>
                                     </td>

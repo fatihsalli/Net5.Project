@@ -37,6 +37,20 @@ namespace Project.WEB.Models
             }
         }
 
+        public void DecreaseItem(int id)
+        {
+            _myCart[id].Quantity--;
+            if (_myCart[id].Quantity<=0)
+            {
+                DeleteItem(id);
+                return;
+            }
+        }
+
+        public void IncreaseItem(int id)
+        {
+            _myCart[id].Quantity++;
+        }
 
 
 

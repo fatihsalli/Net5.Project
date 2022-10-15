@@ -4,13 +4,26 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container mt-2">
-    <div class="col-md-6 mx-auto">
-        <div class="card">
-            <p>
-                <span>@Model.OrderNumber numaralı siparişiniz oluşturuldu. Detaylı bilgilere epostanız üzerinden ulaşabilirsiniz.</span>
-            </p>
+<section class="py-2">
+    <div class="container px-4 px-lg-5 mt-5">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                                <th class="text-xl-center">@Model.OrderNumber numaralı siparişiniz oluşturuldu. Detaylı bilgilere epostanız üzerinden ulaşabilirsiniz.</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
-</div>
+</section>
+
+
+
+
+
 

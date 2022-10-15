@@ -109,7 +109,7 @@ namespace Project.WEB.Controllers
 
                 foreach (CartItem item in sepet.Mycart)
                 {
-                    item.UnitPrice = ((item.UnitPrice * 90)/100);
+                    item.UnitPrice = item.UnitPrice *0.9m;
                 }
                 user.CouponUsing = true;
                 await userManager.UpdateAsync(user);
@@ -122,6 +122,44 @@ namespace Project.WEB.Controllers
                 return RedirectToAction("MyCart");
             }
         }
+
+
+        public IActionResult DecreaseCart(int id)
+        {
+            Cart cart = SessionHelper.GetProductFromJson<Cart>(HttpContext.Session, "sepet");
+            cart.DecreaseItem(id);
+
+            //Sepeti güncellemek için
+            SessionHelper.SetProductJson(HttpContext.Session, "sepet", cart);
+
+            if (cart.Mycart.Count == 0)
+            {
+                SessionHelper.RemoveSession(HttpContext.Session, "sepet");
+            }
+
+            return RedirectToAction("MyCart");
+        }
+
+        public IActionResult IncreaseCart(int id)
+        {
+            Cart cart = SessionHelper.GetProductFromJson<Cart>(HttpContext.Session, "sepet");
+            
+            var product = productRepository.GetById(id);
+            //Bu method sepete stoktan fazla ürün eklenmemesi için oluşturulmuştur.
+            var result = StockCheck.GetStockCheck(product.UnitsInStock, product.Id);
+
+            if (result)
+            {
+                cart.IncreaseItem(id);
+                SessionHelper.SetProductJson(HttpContext.Session, "sepet", cart);
+                return RedirectToAction("MyCart");
+            }
+            else
+            {
+                return RedirectToAction("MyCart");
+            }
+        }
+
 
         public IActionResult Register()
         {
