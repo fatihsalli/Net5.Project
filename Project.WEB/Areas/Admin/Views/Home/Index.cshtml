@@ -83,6 +83,7 @@
                             <th>Order No</th>
                             <th>Order Date</th>
                             <th>Total Price</th>
+                            <th>Payment Method</th>
                             <th>Is Shipped</th>
                             <th>Shipping Detail</th>
                         </tr>
@@ -95,6 +96,7 @@
                                 <td>@item.OrderNumber</td>
                                 <td>@item.CreatedDate</td>
                                 <td>@item.TotalPrice $</td>
+                                <td>@item.PaymentMethod</td>
                                 <td>
                                     @switch (item.ShipperStatus)
                                     {

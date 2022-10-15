@@ -31,9 +31,9 @@ namespace Project.WEB.Controllers
 
         public IActionResult Index()
         {
-            ViewBag.OrderPayment1 = PaymentMethod.MoneyOrder;
-            ViewBag.OrderPayment2 = PaymentMethod.Bankcard;
-            ViewBag.OrderPayment3 = PaymentMethod.PayingAtTheDoor;
+            ViewBag.MoneyOrder = PaymentMethod.MoneyOrder;
+            ViewBag.Bankcard = PaymentMethod.Bankcard;
+            ViewBag.PayingAtTheDoor = PaymentMethod.PayingAtTheDoor;
 
             Cart cart = SessionHelper.GetProductFromJson<Cart>(HttpContext.Session, "sepet");
             return View(cart.Mycart);
@@ -76,9 +76,9 @@ namespace Project.WEB.Controllers
                     productRepository.Update(product);
 
                     orderDetailRepository.Insert(orderDetail);
-                };                
+                };
 
-                //MailSender.SendEmail(user.Email, "Siparişiniz Oluşturuldu", $"#{order.OrderNumber} numaralı siparişiniz oluşturuldu. Kargoya verdiğimizde sizi bilgilendireceğiz!");
+                MailSender.SendEmail(user.Email, "Siparişiniz Oluşturuldu", $"#{order.OrderNumber} numaralı siparişiniz oluşturuldu. Kargoya verdiğimizde sizi bilgilendireceğiz!");
                 SessionHelper.RemoveSession(HttpContext.Session, "sepet");
                 return View(order);
             }
