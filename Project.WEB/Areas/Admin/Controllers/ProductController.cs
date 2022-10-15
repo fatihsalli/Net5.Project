@@ -1,12 +1,16 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Project.BLL.Repositories.CategoryRepository;
 using Project.BLL.Repositories.ProductRepository;
 using Project.Entity.Entity;
 using Project.WEB.Areas.Admin.Models;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Project.WEB.Areas.Admin.Controllers
 {
@@ -44,8 +48,50 @@ namespace Project.WEB.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Product product)
+        public async Task<IActionResult> Create(Product product,IFormFile imageFile)
         {
+            try
+            {
+                string path;
+                if (imageFile==null)
+                {
+                    //Varsayılan görsel
+                    path = Path.Combine(Directory.GetCurrentDirectory(),"wwwroot\\images\\", "no-image.jpg");
+                    product.ImagePath = "no-image.jpg";
+                    TempData["Result"] = "Ürün varsayılan görsel ile eklendi!";
+                }
+                else
+                {
+                    var fileArray = imageFile.FileName.Split(".");
+                    var extension = fileArray[fileArray.Length - 1].ToLower();
+
+                    if (extension=="jpg" || extension=="jpeg" || extension=="png")
+                    {
+                        var uniqueName = Guid.NewGuid();
+                        var newFileName = uniqueName + "." + extension;
+                        //Kullanıcıdan gelen görsel
+                        path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images\\", newFileName);
+                        //Alternatif kütüphane ekleme yöntemi. Bu controllerda sadece burada kullanacaksak bu şekilde ekleyebiliriz. Filestream sayesinde kullanıcının eklediği dosyayı images klasörümüz içerisine kayıt edebiliyoruz.
+                        using (var stream = new FileStream(path, FileMode.Create))
+                        {
+                            await imageFile.CopyToAsync(stream);
+                        }
+                        TempData["Result"] = "Ürün seçilen görsel ile eklendi!";
+                        product.ImagePath = newFileName;
+                    }
+                    else
+                    {
+                        path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images\\", "no-image.jpg");
+                        product.ImagePath = "no-image.jpg";
+                        TempData["Result"] = "Seçilen format uygun olmadığı için ürün varsayılan görsel ile eklendi!";
+                    }                                  
+                }
+            }
+            catch (System.Exception ex)
+            {
+                TempData["Result"]=ex.Message;
+                return View();
+            }
             productRepository.Insert(product);
             return RedirectToAction("Index");
         }

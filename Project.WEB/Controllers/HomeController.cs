@@ -276,8 +276,5 @@ namespace Project.WEB.Controllers
             return RedirectToAction("MyCart");
         }
 
-
-
-
     }
 }

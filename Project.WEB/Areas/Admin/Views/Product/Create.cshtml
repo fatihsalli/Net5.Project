@@ -10,7 +10,7 @@
             <div class="card-header">
                 <h3 class="card-title">Product Create</h3>
             </div>
-            <form method="post">
+            <form method="post" enctype="multipart/form-data">
                 <div class="card-body">
                     <div class="form-group">
                         <label>Product Name</label>
@@ -29,6 +29,15 @@
                         <select asp-items="@ViewBag.Categories" asp-for="CategoryId" class="form-control custom-select">
                             <option selected="" disabled>Please Select Category</option>
                         </select>
+                        <div class="form-group">
+                            <label>Select Image</label>
+                            <div class="input-group">
+                                <div class="custom-select">
+                                    <input type="file" id="imageFile" name="imageFile"/>
+                                    <label>Select</label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="card-footer">
