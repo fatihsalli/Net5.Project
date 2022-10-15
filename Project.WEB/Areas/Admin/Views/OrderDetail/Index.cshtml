@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+    var productList = ViewBag.ProductList as List<Product>;
 }
 
 <div class="row">
@@ -22,6 +23,7 @@
                         <tr>
                             <th>Order Id</th>
                             <th>Product Id</th>
+                            <th>Product Name</th>
                             <th>Unit Price</th>
                             <th>Quantity</th>
                             <th>Status</th>
@@ -33,7 +35,8 @@
                             <tr>
                                 <td>@item.OrderId</td>
                                 <td>@item.ProductId</td>
-                                <td>@item.UnitPrice</td>
+                                <td>@productList.Where(x=> x.Id==item.ProductId).FirstOrDefault().ProductName</td>
+                                <td>@item.UnitPrice $</td>
                                 <td>@item.Quantity</td>
                                 <td>@item.Status</td>
                             </tr>

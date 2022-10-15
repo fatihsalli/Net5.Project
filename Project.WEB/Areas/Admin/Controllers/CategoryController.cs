@@ -1,11 +1,15 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
+using Newtonsoft.Json.Linq;
 using Project.BLL.Repositories.CategoryRepository;
 using Project.BLL.Repositories.ProductRepository;
 using Project.Entity.Entity;
+using Project.WEB.Areas.Admin.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Project.WEB.Areas.Admin.Controllers
 {
@@ -13,22 +17,22 @@ namespace Project.WEB.Areas.Admin.Controllers
     [Area("Admin")]
     public class CategoryController : Controller
     {
-        private readonly ICategoryRepository _categoryRepository;
-        private readonly IProductRepository _productRepository;
+        private readonly ICategoryRepository categoryRepository;
+        private readonly IProductRepository productRepository;
 
         public CategoryController(ICategoryRepository categoryRepository,IProductRepository productRepository)
         {
-            _categoryRepository = categoryRepository;
-            _productRepository = productRepository;
+            this.categoryRepository = categoryRepository;
+            this.productRepository = productRepository;
         }
 
         public IActionResult Index()
         {
-
-            @TempData["Title"] = "Category";
-            TempData["Categories"] =_categoryRepository.GetAll();
-            //ViewBag.Categories = _productRepository.GetAll();
-            return View(_productRepository.GetAll());
+            //TotalProduct'ı bulabilmek için oluşturulmuştur.
+            List<Product> productList=productRepository.GetAll().ToList();
+            ViewBag.ProductList=productList;
+            TempData["Title"] = "Category";
+            return View(categoryRepository.GetAll());
         }
 
         [HttpGet]
@@ -41,14 +45,14 @@ namespace Project.WEB.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Create(Category category)
         {
-            _categoryRepository.Insert(category);
+            categoryRepository.Insert(category);
             return RedirectToAction("Index");
         }
 
         public IActionResult Delete(int id)
         {
-            var category = _categoryRepository.GetById(id);
-            _categoryRepository.Remove(category);
+            var category = categoryRepository.GetById(id);
+            categoryRepository.Remove(category);
             return RedirectToAction("Index");
         }
 
@@ -56,14 +60,14 @@ namespace Project.WEB.Areas.Admin.Controllers
         public IActionResult Update(int id)
         {
             @TempData["Title"] = "Update Category";
-            var category= _categoryRepository.GetById(id);
+            var category= categoryRepository.GetById(id);
             return View(category);
         }
 
         [HttpPost]
         public IActionResult Update(Category category)
         {
-            _categoryRepository.Update(category);
+            categoryRepository.Update(category);
             return RedirectToAction("Index");
         }
 

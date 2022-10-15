@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Project.BLL.Repositories.CategoryRepository;
 using Project.BLL.Repositories.ProductRepository;
 using Project.Entity.Entity;
+using Project.WEB.Areas.Admin.Models;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Project.WEB.Areas.Admin.Controllers
@@ -12,28 +14,29 @@ namespace Project.WEB.Areas.Admin.Controllers
     [Area("Admin")]
     public class ProductController : Controller
     {
-        private readonly IProductRepository _productRepository;
-        private readonly ICategoryRepository _categoryRepository;
-
+        private readonly IProductRepository productRepository;
+        private readonly ICategoryRepository categoryRepository;
 
         public ProductController(IProductRepository productRepository, ICategoryRepository categoryRepository)
         {
-            _productRepository = productRepository;
-            _categoryRepository = categoryRepository;   
+            this.productRepository = productRepository;
+            this.categoryRepository = categoryRepository;   
         }
 
         public IActionResult Index()
         {
             TempData["Title"] = "Product";
-            return View(_productRepository.GetAll());
+            List<Category> listCategory = categoryRepository.GetAll().ToList();
+            ViewBag.CategoryList = listCategory;
+            return View(productRepository.GetAll());
         }
 
         [HttpGet]
         public IActionResult Create()
         {
             TempData["Title"] = "Create Product";
-            //ViewBag.Categories=_categoryRepository.GetAll();
-            ViewBag.Categories = _categoryRepository.GetAll().Select(x=> new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem() 
+
+            ViewBag.Categories = categoryRepository.GetAll().Select(x=> new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem() 
             { 
                 Text= x.CategoryName, Value=x.Id.ToString()
             });
@@ -44,14 +47,14 @@ namespace Project.WEB.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Create(Product product)
         {
-            _productRepository.Insert(product);
+            productRepository.Insert(product);
             return RedirectToAction("Index");
         }
 
         public IActionResult Delete(int id)
         {
-            var product = _productRepository.GetById(id);
-            _productRepository.Remove(product);
+            var product = productRepository.GetById(id);
+            productRepository.Remove(product);
             return RedirectToAction("Index");
         }
 
@@ -59,8 +62,8 @@ namespace Project.WEB.Areas.Admin.Controllers
         public IActionResult Update(int id)
         {
             @TempData["Title"] = "Update Product";
-            var product = _productRepository.GetById(id);
-            ViewBag.Categories = _categoryRepository.GetAll().Select(x => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem()
+            var product = productRepository.GetById(id);
+            ViewBag.Categories = categoryRepository.GetAll().Select(x => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem()
             {
                 Text = x.CategoryName,
                 Value = x.Id.ToString()
@@ -71,7 +74,7 @@ namespace Project.WEB.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Update(Product product)
         {
-            _productRepository.Update(product);
+            productRepository.Update(product);
             return RedirectToAction("Index");
         }
     }

@@ -1,7 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Project.BLL.Repositories.CategoryRepository;
 using Project.BLL.Repositories.OrderDetailRepository;
+using Project.BLL.Repositories.ProductRepository;
 using Project.Entity.Entity;
+using Project.WEB.Areas.Admin.Models;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Project.WEB.Areas.Admin.Controllers
 {
@@ -9,17 +14,21 @@ namespace Project.WEB.Areas.Admin.Controllers
     [Area("Admin")]
     public class OrderDetailController : Controller
     {
-        private readonly IOrderDetailRepository _orderDetailRepository;
+        private readonly IOrderDetailRepository orderDetailRepository;
+        private readonly IProductRepository productRepository;
 
-        public OrderDetailController(IOrderDetailRepository orderDetailRepository)
+        public OrderDetailController(IOrderDetailRepository orderDetailRepository,IProductRepository productRepository)
         {
-            _orderDetailRepository = orderDetailRepository;
+            this.orderDetailRepository = orderDetailRepository;
+            this.productRepository = productRepository;
         }
 
         public IActionResult Index()
         {
-            @TempData["Title"] = "Order Details";
-            return View(_orderDetailRepository.GetAll());
+            TempData["Title"] = "Order Details";
+            List<Product> listProduct = productRepository.GetAll().ToList();
+            ViewBag.ProductList = listProduct;
+            return View(orderDetailRepository.GetAll());
         }
 
 

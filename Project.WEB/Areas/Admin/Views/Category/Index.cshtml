@@ -1,8 +1,8 @@
-﻿@model IQueryable<Product>
+﻿@model IQueryable<Category>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
-    int sayi = 0;
+    var totalProduct = ViewBag.ProductList as List<Product>;
 }
 
 <div class="row">
@@ -30,14 +30,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var category in TempData["Categories"] as IQueryable<Category>)
+                        @foreach (var category in Model)
                         {
                             <tr>
                                 <td>@category.Id</td>
                                 <td>@category.CategoryName</td>
                                 <td>@category.Description</td>
                                 <td>@category.Status</td>
-                                <td>@*@Model.Where(x=> x.CategoryId==category.Id).AsQueryable().Count();*@</td>
+                                <td>@totalProduct.Where(x=> x.CategoryId==category.Id).Count()</td>
                                 <td>
                                     <a asp-action="Update" asp-controller="Category" asp-area="Admin" asp-route-id="@category.Id" class="btn btn-xs btn-warning">Update</a>
                                     <a asp-action="Delete" asp-controller="Category" asp-area="Admin" asp-route-id="@category.Id" class="btn btn-xs btn-danger">Delete</a>

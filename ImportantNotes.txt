@@ -1,4 +1,4 @@
 => asp-for asp-action gibi özellikleri kullanabilmek için ilgili viewda _ViewImports dosyasý içinde "@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers" olmalýdýr.
 
 Soru?
-Created.Date oluþturulduktan sonra modify edildiðinde created date i siliyor.
+Ef Core da bir sorgu çalýþýrken baþka bir sorgu çalýþtýrdýðýmýzda neden hata alýyoruz? Örneðin productRepository de foreach ile dönerken categoryRepository de bir iþlem yapýldýðýnda "Entity Framework: There is already an open DataReader associated with this Command" hatasý vermektedir. Bunun önüne bir deðiþkene List olarak atadýðýmýzda önüne geçebildik.
