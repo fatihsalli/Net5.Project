@@ -97,12 +97,13 @@ namespace Project.WEB.Controllers
             }
         }
 
+        //Kupon kodu girilmesi durumunda indirim uygulanması için yapılmıştır.
         [HttpPost]
         public async Task<IActionResult> MyCart(string couponCode)
         {
             var user = await userManager.GetUserAsync(User);
 
-            if (couponCode==user.CouponCode)
+            if (couponCode==user.CouponCode && user.CouponUsing!=true)
             {
                 Cart sepet = SessionHelper.GetProductFromJson<Cart>(HttpContext.Session, "sepet");
 
@@ -110,6 +111,9 @@ namespace Project.WEB.Controllers
                 {
                     item.UnitPrice = ((item.UnitPrice * 90)/100);
                 }
+                user.CouponUsing = true;
+                await userManager.UpdateAsync(user);
+                
                 SessionHelper.SetProductJson(HttpContext.Session, "sepet", sepet);
                 return RedirectToAction("MyCart");
             }

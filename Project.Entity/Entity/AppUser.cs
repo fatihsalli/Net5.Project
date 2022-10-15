@@ -11,6 +11,7 @@ namespace Project.Entity.Entity
     {
         public string Address { get; set; }
         public string CouponCode { get; set; }
+        public bool? CouponUsing { get; set; }
 
 
     }
