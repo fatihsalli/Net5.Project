@@ -16,7 +16,6 @@ namespace Project.WEB.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
-            var nesne = userManager.Users;
             return View(userManager.Users);
         }
     }

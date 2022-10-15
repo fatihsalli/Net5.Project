@@ -8,15 +8,12 @@ using System.Linq;
 
 namespace Project.WEB.Areas.Admin.Controllers
 {
-    //[Authorize(Roles = "Admin")]
     [Area("Admin")]
     public class HomeController : Controller
     {
         private readonly IProductRepository productRepository;
         private readonly IOrderRepository orderRepository;
         private readonly UserManager<AppUser> userManager;
-
-
         public HomeController(IProductRepository productRepository,IOrderRepository orderRepository,UserManager<AppUser> userManager)
         {
             this.productRepository = productRepository;

@@ -13,13 +13,11 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace Project.WEB.Areas.Admin.Controllers
 {
-    //[Authorize(Roles = "Admin")]
     [Area("Admin")]
     public class CategoryController : Controller
     {
         private readonly ICategoryRepository categoryRepository;
         private readonly IProductRepository productRepository;
-
         public CategoryController(ICategoryRepository categoryRepository,IProductRepository productRepository)
         {
             this.categoryRepository = categoryRepository;
@@ -38,7 +36,7 @@ namespace Project.WEB.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            @TempData["Title"] = "Create Category";
+            TempData["Title"] = "Create Category";
             return View();
         }
 
@@ -59,7 +57,7 @@ namespace Project.WEB.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Update(int id)
         {
-            @TempData["Title"] = "Update Category";
+            TempData["Title"] = "Update Category";
             var category= categoryRepository.GetById(id);
             return View(category);
         }

@@ -10,13 +10,11 @@ using System.Linq;
 
 namespace Project.WEB.Areas.Admin.Controllers
 {
-    //[Authorize(Roles ="Admin")]
     [Area("Admin")]
     public class ProductController : Controller
     {
         private readonly IProductRepository productRepository;
         private readonly ICategoryRepository categoryRepository;
-
         public ProductController(IProductRepository productRepository, ICategoryRepository categoryRepository)
         {
             this.productRepository = productRepository;
@@ -25,9 +23,10 @@ namespace Project.WEB.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
-            TempData["Title"] = "Product";
+            //Product List içerisinde Category Name de gösterilebilmesi için eklenmiştir.
             List<Category> listCategory = categoryRepository.GetAll().ToList();
             ViewBag.CategoryList = listCategory;
+            TempData["Title"] = "Product";
             return View(productRepository.GetAll());
         }
 
@@ -61,7 +60,7 @@ namespace Project.WEB.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Update(int id)
         {
-            @TempData["Title"] = "Update Product";
+            TempData["Title"] = "Update Product";
             var product = productRepository.GetById(id);
             ViewBag.Categories = categoryRepository.GetAll().Select(x => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem()
             {

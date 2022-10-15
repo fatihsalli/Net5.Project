@@ -10,7 +10,6 @@ using System.Linq;
 
 namespace Project.WEB.Areas.Admin.Controllers
 {
-    //[Authorize(Roles = "Admin")]
     [Area("Admin")]
     public class OrderDetailController : Controller
     {
@@ -25,9 +24,10 @@ namespace Project.WEB.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
-            TempData["Title"] = "Order Details";
+            //Order Details içinde ProductName'i de gösterebilmek için eklenmiştir.
             List<Product> listProduct = productRepository.GetAll().ToList();
             ViewBag.ProductList = listProduct;
+            TempData["Title"] = "Order Details";
             return View(orderDetailRepository.GetAll());
         }
 

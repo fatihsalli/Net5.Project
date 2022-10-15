@@ -21,6 +21,5 @@ namespace Project.Common
 
             smtpClient.Send(sender);
         }
-        //https:localhost:5001
     }
 }

@@ -76,7 +76,6 @@ namespace Project.BLL.Repositories
                 _context.Entry(entity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                 SaveChanges("Veri Güncellendi!");
             }
-
         }
     }
 
