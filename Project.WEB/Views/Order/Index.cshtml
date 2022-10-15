@@ -3,6 +3,7 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
     decimal totalPrice = 0;
+
 }
 
 <section class="py-2">
@@ -37,15 +38,15 @@
                     <div class="card-body">
                         <h5>Total Price: @totalPrice $</h5>
                         <div class="form-group mt-2">
-                            <label>Payment Method</label>
-                            <select>
-                                <option>Money Order</option>
-                                <option>Bankcard</option>
-                                <option>Paying at the door</option>
-                            </select>
+                            <div class="col-form-label-lg">
+                                <label>Choose Payment Method</label>
+                            </div>
+                            <a asp-action="CompleteCart" asp-controller="Order" asp-route-payment="@ViewBag.OrderPayment1" class="btn btn-primary mt-3">@ViewBag.OrderPayment1</a>
+                            <a asp-action="CompleteCart" asp-controller="Order" asp-route-payment="@ViewBag.OrderPayment2" class="btn btn-primary mt-3">@ViewBag.OrderPayment2</a>
+                            <a asp-action="CompleteCart" asp-controller="Order" asp-route-payment="@ViewBag.OrderPayment3" class="btn btn-primary mt-3">@ViewBag.OrderPayment3</a>
                         </div>
-                        <a asp-action="CompleteCart" asp-controller="Order" class="btn btn-primary mt-3">Complete Cart</a>
                     </div>
+
                 </div>
             </div>
         </div>

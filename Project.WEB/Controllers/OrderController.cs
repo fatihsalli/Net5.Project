@@ -31,11 +31,15 @@ namespace Project.WEB.Controllers
 
         public IActionResult Index()
         {
+            ViewBag.OrderPayment1 = PaymentMethod.MoneyOrder;
+            ViewBag.OrderPayment2 = PaymentMethod.Bankcard;
+            ViewBag.OrderPayment3 = PaymentMethod.PayingAtTheDoor;
+
             Cart cart = SessionHelper.GetProductFromJson<Cart>(HttpContext.Session, "sepet");
             return View(cart.Mycart);
         }
 
-        public async Task<IActionResult> CompleteCart()
+        public async Task<IActionResult> CompleteCart(PaymentMethod payment)
         {
             Cart cart = SessionHelper.GetProductFromJson<Cart>(HttpContext.Session, "sepet");
 
@@ -55,9 +59,7 @@ namespace Project.WEB.Controllers
                 }
 
                 Order order = completeCart.AddOrder(user,cart,randomNumber);
-
-                //Geçici yapıldı. Sayfa düzenlenecek
-                order.PaymentMethod = PaymentMethod.Bankcard;
+                order.PaymentMethod = payment;
                 orderRepository.Insert(order);
 
                 foreach (CartItem cartItem in cart.Mycart)
@@ -76,7 +78,7 @@ namespace Project.WEB.Controllers
                     orderDetailRepository.Insert(orderDetail);
                 };                
 
-                MailSender.SendEmail(user.Email, "Siparişiniz Oluşturuldu", $"#{order.OrderNumber} numaralı siparişiniz oluşturuldu. Kargoya verdiğimizde sizi bilgilendireceğiz!");
+                //MailSender.SendEmail(user.Email, "Siparişiniz Oluşturuldu", $"#{order.OrderNumber} numaralı siparişiniz oluşturuldu. Kargoya verdiğimizde sizi bilgilendireceğiz!");
                 SessionHelper.RemoveSession(HttpContext.Session, "sepet");
                 return View(order);
             }
