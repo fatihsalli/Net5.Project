@@ -10,8 +10,8 @@ using Project.DAL.Context;
 namespace Project.DAL.Migrations
 {
     [DbContext(typeof(ProjectContext))]
-    [Migration("20221015062040_migV03")]
-    partial class migV03
+    [Migration("20221015162345_migV01")]
+    partial class migV01
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -288,6 +288,9 @@ namespace Project.DAL.Migrations
                     b.Property<int>("OrderNumber")
                         .HasColumnType("int");
 
+                    b.Property<int>("PaymentMethod")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("ShippedDate")
                         .HasColumnType("datetime2");
 
@@ -372,6 +375,7 @@ namespace Project.DAL.Migrations
                         .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("ImagePath")
+                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 

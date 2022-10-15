@@ -17,6 +17,7 @@ namespace Project.Entity.Entity
         }
         public int OrderNumber { get; set; }
         public decimal TotalPrice { get; set; }
+        public PaymentMethod PaymentMethod { get; set; }
         public ShipStatus ShipperStatus { get; set; }
         public DateTime? ShippedDate { get; set; }
         public DateTime? DeliveredDate { get; set; }

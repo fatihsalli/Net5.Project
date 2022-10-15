@@ -5,6 +5,7 @@ using Project.BLL.Repositories.OrderRepository;
 using Project.BLL.Repositories.ProductRepository;
 using Project.Common;
 using Project.Entity.Entity;
+using Project.Entity.Enum;
 using Project.WEB.Models;
 using Project.WEB.Utils;
 using System;
@@ -54,6 +55,9 @@ namespace Project.WEB.Controllers
                 }
 
                 Order order = completeCart.AddOrder(user,cart,randomNumber);
+
+                //Geçici yapıldı. Sayfa düzenlenecek
+                order.PaymentMethod = PaymentMethod.Bankcard;
                 orderRepository.Insert(order);
 
                 foreach (CartItem cartItem in cart.Mycart)

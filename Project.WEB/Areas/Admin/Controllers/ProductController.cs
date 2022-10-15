@@ -90,7 +90,6 @@ namespace Project.WEB.Areas.Admin.Controllers
             catch (System.Exception ex)
             {
                 TempData["Result"]=ex.Message;
-                return View();
             }
             productRepository.Insert(product);
             return RedirectToAction("Index");
@@ -106,8 +105,12 @@ namespace Project.WEB.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Update(int id)
         {
+            
             TempData["Title"] = "Update Product";
             var product = productRepository.GetById(id);
+
+            //Update ederken imagepathi null'a çekip update etmiyor sorulacak?
+            TransformHelper.transformObject = product.ImagePath;
             ViewBag.Categories = categoryRepository.GetAll().Select(x => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem()
             {
                 Text = x.CategoryName,
@@ -119,6 +122,7 @@ namespace Project.WEB.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Update(Product product)
         {
+            product.ImagePath =(string)TransformHelper.transformObject;
             productRepository.Update(product);
             return RedirectToAction("Index");
         }

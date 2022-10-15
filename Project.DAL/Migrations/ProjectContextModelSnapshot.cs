@@ -286,6 +286,9 @@ namespace Project.DAL.Migrations
                     b.Property<int>("OrderNumber")
                         .HasColumnType("int");
 
+                    b.Property<int>("PaymentMethod")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("ShippedDate")
                         .HasColumnType("datetime2");
 
@@ -370,6 +373,7 @@ namespace Project.DAL.Migrations
                         .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("ImagePath")
+                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 

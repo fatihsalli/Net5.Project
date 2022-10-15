@@ -23,6 +23,7 @@
                         <tr>
                             <th>#</th>
                             <th>Product Name</th>
+                            <th>Product Image</th>
                             <th>Unit Price</th>
                             <th>Units In Stock</th>
                             <th>Category Name</th>
@@ -36,9 +37,12 @@
                                 <tr>
                                     <td>@item.Id</td>
                                     <td>@item.ProductName</td>
+                                    <td>
+                                        <img class="img-size-64" src="~/images/@item.ImagePath" alt="..." />
+                                    </td>
                                     <td>@item.UnitPrice $</td>
                                     <td>@item.UnitsInStock</td>
-                                    <td>@categoryList.Where(x=> x.Id==item.CategoryId).FirstOrDefault().CategoryName</td>
+                                    <td>@categoryList.Where(x => x.Id == item.CategoryId).FirstOrDefault().CategoryName</td>
                                     <td>@item.Status</td>
                                     <td>
                                         <a asp-action="Update" asp-controller="Product" asp-area="Admin" asp-route-id="@item.Id" class="btn btn-xs btn-warning">Update</a>

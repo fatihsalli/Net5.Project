@@ -39,6 +39,7 @@ namespace Project.DAL.Context
             modelBuilder.Entity<Product>().Property(x => x.ProductName).HasMaxLength(50);
             modelBuilder.Entity<Product>().Property(x => x.Description).HasMaxLength(250);
             modelBuilder.Entity<Product>().Property(x => x.ImagePath).HasMaxLength(500);
+            modelBuilder.Entity<Product>().Property(x => x.ImagePath).IsRequired(true);
 
             //Category Düzenlemeler
             modelBuilder.Entity<Category>().Property(x => x.CategoryName).IsRequired(true);
