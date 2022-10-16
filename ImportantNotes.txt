@@ -1,9 +1,11 @@
 => asp-for asp-action gibi özellikleri kullanabilmek için ilgili viewda _ViewImports dosyasý içinde "@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers" olmalýdýr.
 
+------------------------------------------------------------------------------------------------------------------------
 Soru?
 Ef Core da bir sorgu çalýþýrken baþka bir sorgu çalýþtýrdýðýmýzda neden hata alýyoruz? Örneðin productRepository de foreach ile dönerken categoryRepository de bir iþlem yapýldýðýnda "Entity Framework: There is already an open DataReader associated with this Command" hatasý vermektedir. Bu sorunun önüne bir deðiþkene List olarak atadýðýmýzda önüne geçebildik.
 
-
+Soru?
+Product için create kýsmýnda fotoðraf yüklendikten sonra update sayfasýnda herhangi bir özelliði deðiþtirdiðimizde imagepath null olarak geliyor. Bunun nedeni nedir? Çözüm olarak Fluent Api yöntemiyle null olamaz olarak database'e baðlanmýþtýr.
 
 
 ------------------------------------------------------------------------------------------------------------------------

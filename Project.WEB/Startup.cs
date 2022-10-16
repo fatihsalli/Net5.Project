@@ -47,7 +47,7 @@ namespace Project.WEB
             //Kimlik Yönetimi
             services.AddIdentity<AppUser,AppUserRole>(options => options.SignIn.RequireConfirmedEmail = false).AddEntityFrameworkStores<ProjectContext>().AddDefaultTokenProviders();
 
-            //MVC DAhil etmek için
+            //MVC Dahil etmek için
             services.AddControllersWithViews();
 
             //Instancelar
