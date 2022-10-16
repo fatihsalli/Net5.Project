@@ -1,4 +1,14 @@
+------------------------------------------------------------------------------------------------------------------------
+=====> Genel Bilgiler <=====
+
 => asp-for asp-action gibi özellikleri kullanabilmek için ilgili viewda _ViewImports dosyasý içinde "@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers" olmalýdýr.
+
+=> ViewBag => Ýçerisinde küçük boyutlu verileri saklamamýza olanak saðlayan ve dynamic olarak bu verileri içerisinde tutan yapýlardýr. ViewBag kullanabilmek için ilgili action'da çaðrýlmasý gerekmektedir.
+
+=> TempData => Geçici data adlandýrýlan bir yapýdýr içerisinde object olarak verileri tutar. Tempdatayý bir kez tanýmladýktan sonra farklý action'larýn view'lerinde doðrudan kullanabiliriz.
+
+=> Cookiler sadece browserda çalýþýr.
+
 
 ------------------------------------------------------------------------------------------------------------------------
 Soru?

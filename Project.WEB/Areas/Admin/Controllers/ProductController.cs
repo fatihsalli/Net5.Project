@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 
 namespace Project.WEB.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Area("Admin")]
     public class ProductController : Controller
     {

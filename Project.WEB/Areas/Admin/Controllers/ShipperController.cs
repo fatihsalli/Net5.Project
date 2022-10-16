@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Project.BLL.Repositories.OrderDetailRepository;
 using Project.BLL.Repositories.OrderRepository;
@@ -8,11 +9,13 @@ using Project.Entity.Entity;
 using Project.Entity.Enum;
 using Project.WEB.Areas.Admin.Models;
 using System;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Project.WEB.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Area("Admin")]
     public class ShipperController : Controller
     {

@@ -13,6 +13,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace Project.WEB.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Area("Admin")]
     public class CategoryController : Controller
     {

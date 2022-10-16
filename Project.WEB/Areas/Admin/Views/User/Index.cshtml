@@ -14,6 +14,7 @@
                             <th>UserName</th>
                             <th>Email</th>
                             <th>Email Confirmed</th>
+                            <th>Authorization</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -23,6 +24,10 @@
                                 <td>@item.UserName</td>
                                 <td>@item.Email</td>
                                 <td>@item.EmailConfirmed</td>
+                                <td>
+                                    <a asp-action="AssignAdminRole" asp-controller="User" class="btn btn-sm btn-info" asp-route-id="@item.Id">Admin</a>
+                                    <a asp-action="AssignAccountantRole" asp-controller="User" class="btn btn-sm btn-info" asp-route-id="@item.Id">Accountant</a>
+                                </td>
                             </tr>
                         }
                     </tbody>

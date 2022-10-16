@@ -5,6 +5,7 @@ using Project.BLL.Repositories.OrderRepository;
 
 namespace Project.WEB.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Admin,Accountant")]
     [Area("Admin")]
     public class OrderController : Controller
     {

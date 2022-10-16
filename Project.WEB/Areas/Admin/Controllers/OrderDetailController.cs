@@ -10,6 +10,7 @@ using System.Linq;
 
 namespace Project.WEB.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Admin,Accountant")]
     [Area("Admin")]
     public class OrderDetailController : Controller
     {

@@ -44,8 +44,19 @@ namespace Project.WEB
             //Bu, UseDeveloperExceptionPage ile birlikte Entity Framework geçiþleri kullanýlarak çözümlenebilen veritabanýyla ilgili özel durumlarý yakalar. Bu özel durumlar oluþtuðunda, sorunu çözmek için olasý eylemler hakkýnda ayrýntýlý bilgi içeren bir HTML yanýtý oluþturulur.
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            //Kimlik Yönetimi
+            //Identity (kimlik yönetimi) dahil etme
             services.AddIdentity<AppUser,AppUserRole>(options => options.SignIn.RequireConfirmedEmail = false).AddEntityFrameworkStores<ProjectContext>().AddDefaultTokenProviders();
+
+            //IdentityUser nesnesi içerisinde bulunan varsayýlan þifre tanýmlamalarýný deðiþtirdik.
+            services.Configure<IdentityOptions>(x =>
+            {
+                x.Password.RequireDigit = false;
+                x.Password.RequiredLength = 6;
+                x.Password.RequireNonAlphanumeric = false;
+                x.Password.RequireUppercase = false;
+                x.Password.RequireLowercase = false;
+
+            });
 
             //MVC Dahil etmek için
             services.AddControllersWithViews();
@@ -68,6 +79,7 @@ namespace Project.WEB
             services.ConfigureApplicationCookie(x =>
             {
                 x.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Home/Login");
+                x.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/Home/Login");
                 x.Cookie = new Microsoft.AspNetCore.Http.CookieBuilder
                 {
                     Name = "Login_Cookie"
@@ -79,6 +91,7 @@ namespace Project.WEB
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            //Eðer uygulama geliþtirme aþamasýnda aþaðýdaki kod tanýmlý ise alýnan hatalar browserda gösterilir=>UseDeveloperExceptionPage
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -90,14 +103,20 @@ namespace Project.WEB
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
+
+            //wwwroot
             app.UseStaticFiles();
 
+            //UseRouting url'de istekleri tanýmlamak için kullanýlan metot.
             app.UseRouting();
 
             //Session'ý aktif hale getirmek için
             app.UseSession();
 
+            //Authentication => Kimlik yönetimi 
             app.UseAuthentication();
+
+            //Authorization=> Yetkilendirme 
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
