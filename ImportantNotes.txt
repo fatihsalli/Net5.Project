@@ -9,10 +9,16 @@
 
 => Cookiler sadece browserda çalýþýr.
 
+=> Soru?
+   Ef Core da bir sorgu çalýþýrken baþka bir sorgu çalýþtýrdýðýmýzda neden hata alýyoruz? Örneðin productRepository de foreach ile dönerken
+   categoryRepository de bir iþlem yapýldýðýnda "Entity Framework: There is already an open DataReader associated with this Command" hatasý
+   vermektedir. Bu sorunun önüne bir deðiþkene List olarak atadýðýmýzda önüne geçebildik.
+=> Cevap
+   IQueryable tipinde bir istek yapýldýðýnda bu Ram üzerinde tutulur. Ne zaman ToList() veya ToListAsync() dendiðinde veritabanýndan 
+   bilgiyi çeker. Bu sebeple otomatik olarak gelen ayarda bir IQueryable sorgu tamamlanmadan baþka bir IQueryable tipinde sorgu açýldýðýnda
+   "Entity Framework: There is already an open DataReader associated with this Command" hatasý gelir. 
 
 ------------------------------------------------------------------------------------------------------------------------
-Soru?
-Ef Core da bir sorgu çalýþýrken baþka bir sorgu çalýþtýrdýðýmýzda neden hata alýyoruz? Örneðin productRepository de foreach ile dönerken categoryRepository de bir iþlem yapýldýðýnda "Entity Framework: There is already an open DataReader associated with this Command" hatasý vermektedir. Bu sorunun önüne bir deðiþkene List olarak atadýðýmýzda önüne geçebildik.
 
 Soru?
 Product için create kýsmýnda fotoðraf yüklendikten sonra update sayfasýnda herhangi bir özelliði deðiþtirdiðimizde imagepath null olarak geliyor. Bunun nedeni nedir? Çözüm olarak Fluent Api yöntemiyle null olamaz olarak database'e baðlanmýþtýr.
