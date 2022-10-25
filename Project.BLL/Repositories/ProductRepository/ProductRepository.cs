@@ -1,4 +1,5 @@
-﻿using Project.DAL.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using Project.DAL.Context;
 using Project.Entity.Entity;
 using System;
 using System.Collections.Generic;
@@ -14,5 +15,16 @@ namespace Project.BLL.Repositories.ProductRepository
         {
 
         }
+
+        public List<Product> GetProductsWithCategory()
+        {
+            //Eager Loading - data çekilirken categorylerinde alınmasını sağladık.
+            //Lazy Loading - ihtiyaç halinde daha sonra çekilmesi durumu
+            var products = _context.Products.Include(x => x.Category).ToList();
+            return products;
+        }
+
+
+
     }
 }

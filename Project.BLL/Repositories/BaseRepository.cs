@@ -11,7 +11,7 @@ namespace Project.BLL.Repositories
 {
     public class BaseRepository<T> : IRepository<T> where T : BaseEntity
     {
-        private readonly ProjectContext _context;
+        protected readonly ProjectContext _context;
         private readonly DbSet<T> _entities;
 
         public BaseRepository(ProjectContext context)

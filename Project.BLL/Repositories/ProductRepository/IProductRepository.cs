@@ -9,6 +9,6 @@ namespace Project.BLL.Repositories.ProductRepository
 {
     public interface IProductRepository : IRepository<Product>
     {
-
+        public List<Product> GetProductsWithCategory();
     }
 }
