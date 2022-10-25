@@ -9,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Project.BLL.Mapping;
+using Project.BLL.Repositories;
 using Project.BLL.Repositories.CategoryRepository;
 using Project.BLL.Repositories.OrderDetailRepository;
 using Project.BLL.Repositories.OrderRepository;
@@ -48,6 +49,7 @@ namespace Project.API
 
 
             //Instancelar
+            services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
